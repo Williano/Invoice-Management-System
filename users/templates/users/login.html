@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br /><br />
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+              <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" action="{% url 'users:login' %}">
+        {% csrf_token %}
+        {{ login_form|crispy }}
+
+        <p><a href="{% url 'users:password_reset' %}">Forgot Password?</a></p>
+        <button type="submit" name="login">Login</button>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                <strong> Need An Account? <a class="ml-2" href="{% url 'users:registration' %}">Sign Up Now</a></strong>
+            </small>
+        </div>
+    </div>
+    </form>
+{% endblock %}

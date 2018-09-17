@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error_message %}
+<div class="alert alert-danger">{{ error_message }}</div>
+{% endif %}
+
+{% if customer_list %}
+
+<form method="POST" action="{% url 'invoice:new_invoice' %}" name="customer" class="form-horizontal">
+	{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">Select Customer</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Customer:</label>
+				<div class="col-sm-6">
+					<select class="form-control" name="customer_id">
+						<option value="None">(Select)</option>
+						{% for customer in customer_list %}
+						<option value="{{ customer.id }}">{{ customer.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer">
+			<a href="{% url 'invoice:new_customer' %}" class="btn btn-default">Add New Customer</a>
+			<input type="submit" value="Create Invoice" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+
+{% else %}
+
+<div class="alert alert-danger">No customers!</div>
+
+{% endif %}
+
+{% endblock %}

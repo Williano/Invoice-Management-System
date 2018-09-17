@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error_message %}
+<div class="alert alert-danger">{{ error_message }}</div>
+{% endif %}
+
+{% if start and end %}
+
+<h2 class="text-center">Accounting Report: {{ start|date:"SHORT_DATE_FORMAT" }} to {{ end|date:"SHORT_DATE_FORMAT" }}</h2>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Invoices</div>
+	<table class="table table-hover">
+		<tr>
+			<th>ID</th>
+			<th>Customer</th>
+			<th>Date</th>
+			<th>Total</th>
+			<th class="text-right">Actions</th>
+		</tr>
+		{% for invoice in invoices %}
+		<tr>
+			<td>{{ invoice.id }}</td>
+			<td>{{ invoice.customer }}</td>
+			<td>{{ invoice.date|date:"SHORT_DATE_FORMAT" }}</td>
+			<td>${{ invoice.total_items }}</td>
+			<td class="text-right"><a href="{% url 'invoice:invoice' invoice.id %}" class="btn btn-xs btn-primary">View Invoice</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+	<div class="panel-footer text-right"><strong>Total: ${{ invoicetotal }}</strong></div>
+</div>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Expenses</div>
+	<table class="table table-hover">
+		<tr>
+			<th>ID</th>
+			<th>Desciption</th>
+			<th>Invoice</th>
+			<th>Date</th>
+			<th>Cost</th>
+			<th>Qty</th>
+			<th>Total</th>
+			<th class="text-right">Actions</th>
+		</tr>
+		{% for expense in expenses %}
+		<tr>
+			<td>{{ expense.id }}</td>
+			<td>{{ expense.description }}</td>
+			<td>{{ expense.invoice_id }}</td>
+			<td>{{ expense.date|date:"SHORT_DATE_FORMAT" }}</td>
+			<td>${{ expense.cost }}</td>
+			<td>{{ expense.qty }}</td>
+			<td>${{ expense.total }}</td>
+			<td class="text-right">{% if expense.invoice_id %}<a href="{% url 'invoice:invoice' expense.invoice_id %}" class="btn btn-xs btn-primary">View Invoice</a>{% endif %}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<div class="panel-footer text-right"><strong>Total: ${{ expensetotal }}</strong></div>
+</div>
+
+<h2 class="text-right">Net total for period: ${{ nettotal }}</h2>
+
+{% else %}
+
+<form action="{% url 'invoice:accounting' %}" method="POST" class="form-horizontal">
+{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">Choose a date range</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="start">Start:</label>
+				<div class="col-sm-6">
+					<div class="input-group" id="startdate">
+						<input type="text" class="form-control" data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy" id="start" name="start">
+						<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+					</div>
+					<script type="text/javascript">
+					$(function () {
+						$('#startdate input').datepicker({
+							todayBtn: "linked",
+							orientation: "bottom left",
+							autoclose: true
+						});
+					});
+					</script>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="start">End:</label>
+				<div class="col-sm-6">
+					<div class="input-group" id="enddate">
+						<input type="text" class="form-control" data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy" id="end" name="end">
+						<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					$(function () {
+						$('#enddate input').datepicker({
+							todayBtn: "linked",
+							orientation: "bottom left",
+							autoclose: true
+						});
+					});
+					</script>
+			</div>
+		</div>
+		<div class="panel-footer">
+			<input type="submit" value="View" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+
+{% endif %}
+
+{% endblock %}

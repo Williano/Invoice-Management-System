@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if customers %}
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Customer list</div>
+	<table class="table table-hover">
+		<tr>
+			<th>Name</th>
+			<th>Invoices</th>
+			<th class="text-right">Actions</th>
+		</tr>
+		{% for customer in customers %}
+		<tr>
+			<td>{{ customer.name }}</td>
+			<td>{{ customer.invoices }}</td>
+			<td class="text-right">
+				<a href="{% url 'invoicemanager:customer' customer.id %}" class="btn btn-xs btn-primary">View</a>
+				<a href="mailto:{{ customer.email }}" class="btn btn-xs btn-default">Send Email</a>
+				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ customer.name }}" data-delete-url="{% url 'invoicemanager:delete_customer' customer.id %}" class="btn btn-xs btn-danger">Delete</button>
+			</td>
+		</tr>		
+		{% endfor %}
+	</table>
+</div>
+{% if customers.has_other_pages %}
+  <ul class="pagination">
+    {% if customers.has_previous %}
+      <li><a href="?page={{ customers.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in customers.paginator.page_range %}
+      {% if customers.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if customers.has_next %}
+      <li><a href="?page={{ customers.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="confirmdelete" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Confirm</h4>
+			</div>
+			<div class="modal-body">
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+				<a href="#" class="btn btn-danger">Yes</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$('#confirmdelete').on('show.bs.modal', function(e) {
+			var name = $(e.relatedTarget).data('object-name');
+			var url = $(e.relatedTarget).data('delete-url');
+			$('#confirmdelete .modal-body').html("Are you sure you want to delete " + name + "?<br><i>This will delete all associated invoices, items, expenses, and attachments!</i>");
+			$('#confirmdelete .modal-footer a').attr('href', url);
+		});
+	});
+</script>
+<!-- END delete confirmation modal -->
+
+{% else %}
+
+<div class="alert alert-warning">No customers!</div>
+
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error_message %}
+
+<div class="alert alert-danger">{{ error_message }}</div>
+
+{% endif %}
+
+        &nbsp;<br>
+    <div class="container">
+
+    {% if error_message %}
+    <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+
+    {% if invoice %}
+
+    <div class="row">
+        <div class="col-sm-4 text-left">
+            Please submit payment to:<br>
+            <address>
+            <strong>Mpedigree</strong><br>
+            Kwame Nii Noi Streat, Dzorwulu,<br>
+            Accra – Ghana.
+            </address>
+        </div>
+        <div class="col-sm-4 text-center">
+            <h2>Invoice# {{ invoice.id }}</h2>
+            {{ invoice.date }}
+        </div>
+        <div class="col-sm-4 text-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">Customer number: {{ invoice.customer.id }}</div>
+                <div class="panel-body">
+                    {% if invoice.customer %}
+                    {{ invoice.customer.name }}<br>
+                    {{ invoice.customer.address1 }}<br>
+                    {{ invoice.customer.address2 }}
+                    {{ invoice.customer.city }}-
+                    {{ invoice.customer.state }},
+                    {{ invoice.customer.zip }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice items -->
+
+    <table class="table table-hover">
+        <tr>
+            <th>#</th>
+            <th>ITEM</th>
+            <th>DESCRIPTION</th>
+            <th>COST (GHS)</th>
+            <th>QUANTITY</th>
+            <th>TOTAL (GHS)</th>
+        </tr>
+        {% for item in invoice.invoiceitem_set.all %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+			<td>{{ item.description }}</td>
+			<td>{{ item.cost }}</td>
+			<td>{{ item.qty }}</td>
+			<td>{{ item.total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2 class="text-right">Invoice total: GHS {{ invoice.total_items }}</h2>
+
+    <div class="panel-footer">
+    <a href="{% url 'invoice:print_invoice' invoice.id %}" target="_new" class="btn btn-primary">Print Invoice</a>
+
+    {% endif %}
+
+
+{% endblock content %}

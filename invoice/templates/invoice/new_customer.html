@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error_message %}
+<div class="alert alert-danger">{{ error_message }}</div>
+{% endif %}
+
+<form method="POST" action="" name="customer" class="form-horizontal">
+	{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">New Customer</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Name:</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="name" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Address 1:</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="address1" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Address 2:</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="address2" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">City State Zip:</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" name="city" />
+				</div>
+				<div class="col-sm-1">
+					<input type="text" class="form-control" name="state" />
+				</div>
+				<div class="col-sm-2">
+					<input type="text" class="form-control" name="zip" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Email:</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="email" />
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer">
+			<input type="submit" name="savecreate" value="Save and Create Invoice" class="btn btn-default">
+			<input type="submit" name="save" value="Save" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+
+{% endblock %}

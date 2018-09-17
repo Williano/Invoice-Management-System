@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  {% if title %}
+  <title>{{ title }}</title>
+  {% else %}
+  <title>Invoice Manager</title>
+  {% endif %}
+
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'invoice/css/style.css' %}" media="all" />
+ 
+  </head>
+  <body>
+  	&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>
+    <header class="clearfix">
+      <div id="logo">
+        <img src="{% static 'invoice/img/logo.png' %}">
+      </div>
+      <div id="company">
+        <h2 class="name">Mpedigree</h2>
+        <div>Kwame Nii Noi Streat, Dzorwulu, </div>
+        <div>Accra – Ghana.</div>
+        <div>(602) 519-0450</div>
+        <div><a href="mailto:info@mpedigree.net">info@mpedigree.net</a></div>
+      </div>
+      </div>
+    </header>
+    <main>
+      <div id="details" class="clearfix">
+        {% if invoice.customer %}
+        <div id="client">
+          <div class="to">INVOICE TO:</div>
+          <h2 class="name">{{ invoice.customer.name }}</h2>
+          <div class="address">{{ invoice.customer.address1 }}, {{ invoice.customer.city }}</div>
+          <div class="email"><a href="mailto:{{ invoice.customer.email }}">{{ invoice.customer.email }}</a></div>
+          {% endif %}
+        </div>
+        <div id="invoice">
+          <h1>INVOICE  #{{ invoice.id }}</h1>
+          {# <div class="date">Invoice Code: {{ invoice.invoice_code }}</div> #}
+          <div class="date">Date of Invoice: {{ invoice.date_created }}</div>
+          <div class="date">Expiration Date: {{ invoice.expiration_date }}</div>
+          <div class="date">Invoice Status: {{invoice.status }}</div>
+        </div>
+      </div>
+      <table border="0" cellspacing="0" cellpadding="0">
+        <thead>
+          <tr>
+            <th class="no">#</th>
+            <th class="desc">DESCRIPTION</th>
+            <th class="unit">COST (GHS)</th>
+            <th class="qty">QUANTITY</th>
+            <th class="total">TOTAL (GHS)</th>
+          </tr>
+        </thead>
+        <tbody>
+           {% for item in invoice.invoiceitem_set.all %}
+          <tr>
+            <td class="no">{{ item.id }}</td>
+            <td class="desc"><h3>{{ item.name }}</h3>{{item.description }}</td>
+            <td class="unit">{{ item.cost }}</td>
+            <td class="qty">{{ item.qty }}</td>
+			<td class="total">{{ item.total }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2"></td>
+            <td colspan="2">GRAND TOTAL</td>
+            <td>GHS {{ invoice.total }}</td>
+          </tr>
+        </tfoot>
+      </table>
+ 	 <div id="thanks">Thank you!</div>
+      <div id="notices">
+        <div>NOTICE:</div>
+        <div class="notice">THIS QUOTE IS VAT EXCLUSIVE.
+      </div></div>
+    </main>
+    <footer>
+      Invoice was created on a computer and is valid without the signature and seal.
+    </footer>
+  </body>
+</html>
