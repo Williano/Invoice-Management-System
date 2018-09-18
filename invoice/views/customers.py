@@ -9,9 +9,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from invoice.models import Customer, Invoice, InvoiceItem
 
 
-# List all customers
 @login_required(login_url='users:login')
 def customer_list(request):
+    """List all Customers
+
+    List all customers and paginate them to display 25
+    customers per page.
+
+    """
     customer = Customer.objects.all()
     page = request.GET.get('page', 1)
 
@@ -23,21 +28,25 @@ def customer_list(request):
     except EmptyPage:
         customers = paginator.page(paginator.num_pages)
     context = {
-        'title': 'Customer List',
-        'customers': customers,
+        'title' : 'Customer List',
+        'customers' : customers,
     }
     return render(request, 'invoice/customers.html', context)
 
 
-# Show specific customer details
 @login_required(login_url='users:login')
 def customer(request, customer_id):
+    """
+      Displays the details for a particular customer with their
+      invocies.
+
+    """
     customer = get_object_or_404(Customer, pk=customer_id)
     invoices = Invoice.objects.filter(customer = customer).order_by('-date_created')
     context = {
-        'title': "Customer info - %s" % customer.name,
-        'customer': customer,
-        'invoices': invoices,
+        'title' : "Customer info - %s" % customer.name,
+        'customer' : customer,
+        'invoices' : invoices,
     }
     return render(request, 'invoice/customer.html', context)
 
@@ -51,7 +60,7 @@ def new_customer(request):
         c.save()
 
         if 'savecreate' in request.POST:
-            i = Invoice(customer=c, expiration_date=datetime.date.today(), status='Unpaid')
+            i = Invoice(customer=c, expiration_date=request.POST['expiration_date'], status=request.POST['status'])
             i.save()
             messages.success(request, 'New Customer successfully created! ')
             return HttpResponseRedirect(reverse('invoice:invoice', args=(i.id,)))

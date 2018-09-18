@@ -22,9 +22,6 @@ urlpatterns = [
     url(r'^invoice/(?P<invoice_id>[0-9]+)/item/add/$', views.items.add_item, name='add_item'),
     url(r'^invoice/(?P<invoice_id>[0-9]+)/item/(?P<invoiceitem_id>[0-9]+)/delete/$', views.items.delete_item, name='delete_item'),
 
-    # REPORTS
-    url(r'^accounting/$', views.reports.accounting, name='accounting'),
-
     # CUSTOMERS
     url(r'^customers/$', views.customers.customer_list, name='customer_list'),
     url(r'^customer/(?P<customer_id>[0-9]+)/$', views.customers.customer, name='customer'),

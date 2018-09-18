@@ -153,9 +153,9 @@ def new_invoice(request):
 			return render(request, 'invoice/new_invoice.html', context)
 		else:
 			customer = get_object_or_404(Customer, pk=customer_id)
-			i = Invoice(customer=customer, expiration_date=datetime.date.today(), status='status')
+			i = Invoice(customer=customer, expiration_date=datetime.date.today(), status='Upaid')
 			i.save()
-			return HttpResponseRedirect(reverse('invoice:view_invoice', args=(i.id,)))
+			return HttpResponseRedirect(reverse('invoice:invoice', args=(i.id,)))
 			
 	else:
 		# Customer list needed to populate select field
