@@ -18,8 +18,7 @@ urlpatterns = [
     url(r'^invoice/search/$', views.invoices.search_invoice, name='search_invoice'),
     url(r'^view-invoice/(?P<invoice_id>[0-9]+)/$', views.invoices.view_invoice, name='view_invoice'),
     url(r'^invoice/(?P<invoice_id>[0-9]+)/print/$', views.invoices.print_invoice, name='print_invoice'),
-    url(r'^invoice/(?P<invoice_id>[0-9]+)/delete/$', views.invoices.delete_invoice, name='delete_invoice'),
-
+    
     # ITEMS
     url(r'^invoice/(?P<invoice_id>[0-9]+)/item/add/$', views.items.add_item, name='add_item'),
     url(r'^invoice/(?P<invoice_id>[0-9]+)/item/(?P<invoiceitem_id>[0-9]+)/delete/$', views.items.delete_item, name='delete_item'),

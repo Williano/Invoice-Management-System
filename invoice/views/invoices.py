@@ -155,7 +155,7 @@ def new_invoice(request):
 			customer = get_object_or_404(Customer, pk=customer_id)
 			i = Invoice(customer=customer, expiration_date=datetime.date.today(), status='status')
 			i.save()
-			return HttpResponseRedirect(reverse('invoice:invoice', args=(i.id,)))
+			return HttpResponseRedirect(reverse('invoice:view_invoice', args=(i.id,)))
 			
 	else:
 		# Customer list needed to populate select field
@@ -190,12 +190,12 @@ def print_invoice(request, invoice_id):
 
 
 
-# Delete an invoice
-@login_required(login_url='users:login')
-def delete_invoice(request, invoice_id):
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
-    invoice.delete()
-    return HttpResponseRedirect(reverse('invoice:index'))
+# # Delete an invoice
+# @login_required(login_url='users:login')
+# def delete_invoice(request, invoice_id):
+#     invoice = get_object_or_404(Invoice, pk=invoice_id)
+#     invoice.delete()
+#     return HttpResponseRedirect(reverse('invoice:index'))
 	
 	
 	

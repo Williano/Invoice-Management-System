@@ -1,7 +1,7 @@
 # TO DO
 
-- [] Change username display (after login) to dropdown
-- [] Apply the appropriate colors to the messages displayed
+- [x] Change username display (after login) to dropdown
+- [x] Apply the appropriate colors to the messages displayed
 - [] Add unit tests
 - [] Add documentation
 - [x] Write README
