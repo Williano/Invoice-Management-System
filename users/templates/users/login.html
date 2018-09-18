@@ -29,13 +29,11 @@
         {% csrf_token %}
         {{ login_form|crispy }}
 
-        <p><a href="{% url 'users:password_reset' %}">Forgot Password?</a></p>
         <button type="submit" name="login">Login</button>
         <div class="border-top pt-3">
             <small class="text-muted">
                 <strong> Need An Account? <a class="ml-2" href="{% url 'users:registration' %}">Sign Up Now</a></strong>
             </small>
         </div>
-    </div>
     </form>
 {% endblock %}
