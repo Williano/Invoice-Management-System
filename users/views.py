@@ -44,7 +44,7 @@ def registration(request):
                         login(request, user)
                         messages.success(request, "Registration successful! Login !")
 
-                        return redirect('users:login')
+                        return redirect('invoice:index')
                     else:
                         # Invalid username and/or password provided
                         messages.info(request, "Username and/or password does not exist")
