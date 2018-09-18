@@ -132,7 +132,7 @@ def invoice(request, invoice_id):
 @login_required(login_url='users:login')
 def search_invoice(request):
     id = request.POST['id']
-    return HttpResponseRedirect(reverse('invoice:invoice', args=(id,)))
+    return HttpResponseRedirect(reverse('invoice:view_invoice', args=(id,)))
 
 
 

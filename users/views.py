@@ -42,7 +42,7 @@ def registration(request):
                     user = authenticate(username=username, password=password)
                     if user is not None:
                         login(request, user)
-                        messages.success(request, "Registration successful")
+                        messages.success(request, "Registration successful! Login !")
 
                         return redirect('users:login')
                     else:
@@ -100,6 +100,6 @@ def sign_in(request):
 def sign_out(request):
     if request.user.is_authenticated:
         logout(request)
-        messages.success(request, 'You have successfully logged out ! Login again')
+        messages.success(request, 'You have successfully logged out! Login again!')
 
     return redirect('users:login')
