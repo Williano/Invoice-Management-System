@@ -29,8 +29,8 @@
 			<td>{{ invoice.total_items }}</td>
 			<td class="text-right">
 				<a href="{% url 'invoice:view_invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
-				<a href="{% url 'invoice:customer' invoice.customer.id %}" class="btn btn-xs btn-default">Customer</a>
-				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ invoice.id }}" data-delete-url="{% url 'invoice:delete_invoice' invoice.id %}" class="btn btn-xs btn-danger">Invalidate</button>
+			 <a href="{% url 'invoice:customer' invoice.customer.id %}" class="btn btn-xs btn-default">Customer</a>
+				<button type="button" class="btn btn-xs btn-danger">Invalidate</button>
 			</td>
 		</tr>
 		{% endfor %}
@@ -75,19 +75,6 @@
 		</div>
 	</div>
 </div>
-
-<script>
-	$(document).ready(function() {
-		$('#confirmdelete').on('show.bs.modal', function(e) {
-			var name = $(e.relatedTarget).data('object-name');
-			var url = $(e.relatedTarget).data('delete-url');
-			$('#confirmdelete .modal-body').html("Are you sure you want to delete invoice " + name + "?<br><i>This will delete all associated items, expenses, and attachments!</i>");
-			$('#confirmdelete .modal-footer a').attr('href', url);
-		});
-	});
-</script>
-<!-- END delete confirmation modal -->
-	
 {% else %}
 <div class="alert alert-warning">No invoices!</div>
 {% endif %}

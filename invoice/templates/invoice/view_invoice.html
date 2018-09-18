@@ -70,7 +70,7 @@
         {% endfor %}
     </table>
 
-    <h2 class="text-right">Invoice total: GHS {{ invoice.total_items }}</h2>
+    <h2 class="text-right">Invoice total (GHS): {{ invoice.total_items }}</h2>
 
     <div class="panel-footer">
     <a href="{% url 'invoice:print_invoice' invoice.id %}" target="_new" class="btn btn-primary">Print Invoice</a>
