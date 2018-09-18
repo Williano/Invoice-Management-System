@@ -70,7 +70,7 @@ def registration(request):
                     user = authenticate(username=username, password=password)
                     if user is not None:
                         login(request, user)
-                        messages.success(request, "Registration successful! Login !")
+                        messages.success(request, "Registration successful! Welcome %s !" %user.username)
 
                         return redirect('invoice:index')
                     else:
