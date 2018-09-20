@@ -19,11 +19,11 @@ def validate_data(username, password, email, first_name, last_name, user_type):
     """
     ok, messages = True, []
 
-    if first_name is None or len(first_name) < 1:
+    if first_name is None or len(first_name) < 3:
         messages.append("Provide first name")
         ok = False
 
-    if last_name is None or len(last_name) < 1:
+    if last_name is None or len(last_name) < 3:
         messages.append("Provide last name")
         ok = False
 
@@ -31,11 +31,11 @@ def validate_data(username, password, email, first_name, last_name, user_type):
         messages.append("Username is required and must be at least 3 characters long")
         ok = False
 
-    if password is None or len(password) < 6:
+    if password is None or len(password) < 8:
         messages.append("Password is required and must be at least 6 characters long")
         ok = False
 
-    if not re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email):
+    if len(email) < 10 or not re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email):
         messages.append("Invalid Email Address")
         ok = False
 

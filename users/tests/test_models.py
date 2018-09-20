@@ -21,6 +21,8 @@ class UserModelTest(TestCase):
 
     def test_model_contain_user(self):
         user = User.objects.get(username="johndoe")
+
+        self.assertEquals(user.__unicode__(), "johndoe")
         self.assertEquals(user.password, "johndoepass")
         self.assertEquals(user.email, "johndoe@example.com")
         self.assertIsNotNone(user)

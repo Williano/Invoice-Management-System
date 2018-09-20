@@ -2,7 +2,7 @@
 
 - [x] Change username display (after login) to dropdown
 - [x] Apply the appropriate colors to the messages displayed
-- [x] Add unit tests
+- [] Add unit tests
 - [x] Add documentation
 - [x] Write README
 - [] Dockerize the application

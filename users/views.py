@@ -73,15 +73,9 @@ def registration(request):
                         messages.success(request, "Registration successful! Welcome %s !" %user.username)
 
                         return redirect('invoice:index')
-                    else:
-                        # Invalid username and/or password provided
-                        messages.error(request, "Username and/or password does not exist")
-                        return render(request, "users/registration.html", {
-                            'registration_form': form
-                        })
                 else:
                     # User already exists
-                    messages.error(request, "Username and/or email already taken")
+                    messages.warning(request, "A user with that Email already exist")
                     return render(request, "users/registration.html", {
                         'registration_form': form
                     })
@@ -125,7 +119,7 @@ def sign_in(request):
             # check to ensure that the username is not None.
             # If it is, inform the user accordingly and presented
             # with the form to try again
-            if username is not None and len(username) > 0:
+            if username is not None and len(username) >= 6:
 
                 # authenticate the user. If the user object is not None,
                 # it means the user exists in the system. Then if the password
@@ -143,11 +137,6 @@ def sign_in(request):
                     return render(request, "users/login.html", {
                         'login_form': form
                     })
-            else:
-                messages.warning(request, "Please provide a username.")
-                return render(request, "users/login.html", {
-                    'login_form': form
-                })
     else:
         # For a GET request, create a login form ad pass it
         # to the login page for rendering.

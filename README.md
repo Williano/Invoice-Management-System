@@ -40,3 +40,10 @@ python manage.py runserver
 ```
 
 Visit `localhost:8000` in your browser.
+
+## Testing
+Run the commands below to test the project and view the coverage.
+```
+coverage run --source='.' manage.py test
+coverage report -m
+```
