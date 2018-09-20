@@ -1,7 +1,7 @@
 # Invoice Management System
 
 ## Getting Started
-This section describes how to set up an environmet to run and test the project.
+This section describes how to set up an environment to run and test the project.
 
 ### Prerequisites
 * You have a working installation of Python 2.7.*
@@ -17,26 +17,26 @@ Your shell prompt should look something like this:
 
 Clone this repository into the directory of your choice like so:
 ```
-git clone https://github.com/Williano/Invoice-Management-System.git
+$ git clone https://github.com/Williano/Invoice-Management-System.git
 ```
 
-`cd` into the project root directory and install the needed requirements.
-NB: Ensure your virtual environment is activated.
+`cd` into the project root directory and install the needed requirements.  
+NB: Ensure that your virtual environment is activated.
 ```
-cd Invoice-Management-System/
-pip install -r requirements.txt
+$ cd Invoice-Management-System/
+$ pip install -r requirements.txt
 ```
 
 Setup the database by running the following.
 ```
-python manage.py makemigrations
-python manage.py migrate
+$ python manage.py makemigrations
+$ python manage.py migrate
 ```
 
 ### Running
 When all is okay, you can start the local development server.
 ```
-python manage.py runserver
+$ python manage.py runserver
 ```
 
 Visit `localhost:8000` in your browser.
@@ -44,6 +44,6 @@ Visit `localhost:8000` in your browser.
 ## Testing
 Run the commands below to test the project and view the coverage.
 ```
-coverage run --source='.' manage.py test
-coverage report -m
+$ coverage run --source='.' manage.py test
+$ coverage report -m
 ```
