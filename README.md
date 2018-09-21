@@ -27,6 +27,23 @@ $ cd Invoice-Management-System/
 $ pip install -r requirements.txt
 ```
 
+You will need to set the following environment variables. 
+Open your .bashrc file
+```shell
+$ vim ~/.bashrc
+```
+
+and add the following 
+```shell
+export SECRET_KEY='{secure secret key}'
+export NAME='{database name}'
+export USER='{user}'
+export PASSWORD='{user password}'
+export HOST='{database host ip}'
+export PORT='{database port}'
+
+```
+
 Setup the database by running the following.
 ```
 $ python manage.py makemigrations
