@@ -86,7 +86,7 @@
 				<td class="text-right">
 					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ item.description }}" data-delete-url="{% url 'invoicemanager:delete_item' invoice.id item.id %}">Delete</button>
 				</td>
-			</tr>			
+			</tr>
 			{% endfor %}
 			<tr>
 				<td><input type="text" name="name" class="form-control"></td>
@@ -116,7 +116,7 @@
 				<h4 class="modal-title">Confirm</h4>
 			</div>
 			<div class="modal-body">
-				
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>

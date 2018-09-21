@@ -154,7 +154,9 @@ def search_invoice(request):
 def new_invoice(request):
         # If no customer_id is defined, create a new invoice
     if request.method == 'POST':
-        customer_id = request.POST['customer_id']
+        customer_id = request.POST.get("customer_id", "None")
+        expiration_date = request.POST.get("expiration_date", datetime.date.today())
+        status = request.POST.get("status", 'Upaid')
 
         if customer_id == 'None':
             customers = Customer.objects.order_by('name')
@@ -167,7 +169,7 @@ def new_invoice(request):
         else:
             customer = get_object_or_404(Customer, pk=customer_id)
             i = Invoice(customer=customer,
-                        expiration_date=datetime.date.today(), status='Upaid')
+                        expiration_date=expiration_date, status=status)
             i.save()
             return HttpResponseRedirect(reverse('invoice:invoice', args=(i.id,)))
 
