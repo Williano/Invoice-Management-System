@@ -9,4 +9,4 @@
 - [] Setup production database
 - [x] Setup email server for password reset
 - [] Prepare for deployment
-- [] Implement `invalidate invoice` functionality
+- [x] Implement `invalidate invoice` functionality
