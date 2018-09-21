@@ -30,7 +30,7 @@
 			<td class="text-right">
 				<a href="{% url 'invoice:view_invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
 			 <a href="{% url 'invoice:customer' invoice.customer.id %}" class="btn btn-xs btn-default">Customer</a>
-				<button type="button" class="btn btn-xs btn-danger">Invalidate</button>
+			 <button type="button" data-toggle="modal" data-target="#confirminvalidate" data-object-name="{{ invoice.id }}" data-invalidate-url="{% url 'invoice:invalidate_invoice' invoice.id %}" class="btn btn-xs btn-danger">Invalidate</button>
 			</td>
 		</tr>
 		{% endfor %}
@@ -58,8 +58,8 @@
   </ul>
 {% endif %}
 
-<!-- Delete confirmation modal -->
-<div class="modal fade" id="confirmdelete" role="dialog">
+<!-- Invalidate confirmation modal -->
+<div class="modal fade" id="confirminvalidate" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -75,6 +75,19 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function() {
+		$('#confirminvalidate').on('show.bs.modal', function(e) {
+			var name = $(e.relatedTarget).data('object-name');
+			var url = $(e.relatedTarget).data('invalidate-url');
+			$('#confirminvalidate .modal-body').html("Are you sure you want to invalidate invoice " + name + "?<br><i>This will delete all associated items!</i>");
+			$('#confirminvalidate .modal-footer a').attr('href', url);
+		});
+	});
+</script>
+<!-- END invalidate confirmation modal -->
+
 {% else %}
 <div class="alert alert-warning">No invoices!</div>
 {% endif %}

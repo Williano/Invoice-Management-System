@@ -190,12 +190,12 @@ def print_invoice(request, invoice_id):
 
 
 
-# # Delete an invoice
-# @login_required(login_url='users:login')
-# def delete_invoice(request, invoice_id):
-#     invoice = get_object_or_404(Invoice, pk=invoice_id)
-#     invoice.delete()
-#     return HttpResponseRedirect(reverse('invoice:index'))
+# Invalidate an invoice
+@login_required(login_url='users:login')
+def invalidate_invoice(request, invoice_id):
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    invoice.delete()
+    return HttpResponseRedirect(reverse('invoice:index'))
 	
 	
 	
