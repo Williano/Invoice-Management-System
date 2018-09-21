@@ -33,6 +33,7 @@ class RegistrationForm(ModelForm):
 
 class LoginForm(forms.Form):
     username = forms.CharField(
+        min_length=6,
         max_length=80,
         label="Username",
         required=True

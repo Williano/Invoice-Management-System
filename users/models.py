@@ -7,8 +7,8 @@ from django.db import models
 
 auth_level = [
     ("SELECT", "Select"),
-    ("ADMIN", "admin"),
-    ("REGULAR", "regular"),
+    ("ADMIN", "Admin"),
+    ("REGULAR", "Regular"),
 ]
 
 
