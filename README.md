@@ -11,18 +11,18 @@ This section describes how to set up an environment to run and test the project.
 ### Setup
 Create a Python virtual environment somewhere on your system and activate it.
 Your shell prompt should look something like this:
-```
+```shell
 (env)[username@computer pwd]$
 ```
 
 Clone this repository into the directory of your choice like so:
-```
+```shell
 $ git clone https://github.com/Williano/Invoice-Management-System.git
 ```
 
 `cd` into the project root directory and install the needed requirements.  
 NB: Ensure that your virtual environment is activated.
-```
+```shell
 $ cd Invoice-Management-System/
 $ pip install -r requirements.txt
 ```
@@ -45,14 +45,14 @@ export PORT='{database port}'
 ```
 
 Setup the database by running the following.
-```
+```shell
 $ python manage.py makemigrations
 $ python manage.py migrate
 ```
 
 ### Running
 When all is okay, you can start the local development server.
-```
+```shell
 $ python manage.py runserver
 ```
 
@@ -60,7 +60,7 @@ Visit `localhost:8000` in your browser.
 
 ## Testing
 Run the commands below to test the project and view the coverage.
-```
+```shell
 $ coverage run --source='.' manage.py test
 $ coverage report -m
 ```
