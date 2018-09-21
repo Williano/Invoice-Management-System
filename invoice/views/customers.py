@@ -60,7 +60,7 @@ def new_customer(request):
         c.save()
 
         if 'savecreate' in request.POST:
-            i = Invoice(customer=c, expiration_date=request.POST['expiration_date'], status=request.POST['status'])
+            i = Invoice(customer=c, expiration_date=datetime.date.today(), status='Upaid')
             i.save()
             messages.success(request, 'New Customer successfully created! ')
             return HttpResponseRedirect(reverse('invoice:invoice', args=(i.id,)))
