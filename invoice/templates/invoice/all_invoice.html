@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if invoice_list %}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">{% if title %}{{ title }}{% else %}Invoices{% endif %}</div>
+    <table class="table table-hover">
+        <tr>
+            <th>Invoice</th>
+            <th>Invoice Code</th>
+            <th>Customer</th>
+            <th>Date Created</th>
+            <th>Expiration Date</th>
+            <th>Status</th>
+            <th>Valid</th>
+            <th>Total (GHS)</th>
+            <th class="text-right">Actions</th>
+        </tr>
+
+        {% for invoice in invoice_list %}
+            {% if invoice.valid %}
+        <tr>
+                <td>{{ invoice.id }}</td>
+                <td>{{ invoice.invoice_code }}</td>
+                <td>{{ invoice.customer }}</td>
+                <td>{{ invoice.date_created|date:"SHORT_DATE_FORMAT" }}</td>
+                <td>{{ invoice.expiration_date|date:"SHORT_DATE_FORMAT" }}</td>
+                <td>{{ invoice.status }}</td>
+                <td>{{ invoice.valid }}</td>
+                <td>{{ invoice.total_items }}</td>
+                <td class="text-right">
+                    <a href="{% url 'invoice:view_invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
+                 <a href="{% url 'invoice:customer' invoice.customer.id %}" class="btn btn-xs btn-default">Customer</a>
+                 <button type="button" data-toggle="modal" data-target="#confirminvalidate" data-object-name="{{ invoice.id }}" data-invalidate-url="{% url 'invoice:invalidate_invoice' invoice.id %}" class="btn btn-xs btn-danger">Invalidate</button>
+                </td>
+            {% else %}
+                <td class="bg-danger">{{ invoice.id }}</td>
+                <td class="bg-danger">{{ invoice.invoice_code }}</td>
+                <td class="bg-danger">{{ invoice.customer }}</td>
+                <td class="bg-danger">{{ invoice.date_created|date:"SHORT_DATE_FORMAT" }}</td>
+                <td class="bg-danger">{{ invoice.expiration_date|date:"SHORT_DATE_FORMAT" }}</td>
+                <td class="bg-danger">{{ invoice.status }}</td>
+                <td class="bg-danger">{{ invoice.valid }}</td>
+                <td class="bg-danger">{{ invoice.total_items }}</td>
+                <td class="text-right bg-danger">
+                    <a href="{% url 'invoice:view_invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
+                 <a href="{% url 'invoice:customer' invoice.customer.id %}" class="btn btn-xs btn-default">Customer</a>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% if invoice_list.has_other_pages %}
+  <ul class="pagination">
+    {% if invoice_list.has_previous %}
+      <li><a href="?page={{ invoice_list.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in invoice_list.paginator.page_range %}
+      {% if invoice_list.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if invoice_list.has_next %}
+      <li><a href="?page={{ invoice_list.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+<!-- Invalidate confirmation modal -->
+<div class="modal fade" id="confirminvalidate" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <a href="#" class="btn btn-danger">Yes</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#confirminvalidate').on('show.bs.modal', function(e) {
+            var name = $(e.relatedTarget).data('object-name');
+            var url = $(e.relatedTarget).data('invalidate-url');
+            $('#confirminvalidate .modal-body').html("Are you sure you want to invalidate invoice " + name + "?<br><i>This will delete all associated items!</i>");
+            $('#confirminvalidate .modal-footer a').attr('href', url);
+        });
+    });
+</script>
+<!-- END invalidate confirmation modal -->
+
+{% else %}
+<div class="alert alert-warning">No invoices!</div>
+{% endif %}
+
+{% endblock %}

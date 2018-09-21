@@ -85,8 +85,9 @@
 			<th>Total</th>
 			<th class="text-right">Actions</th>
 		</tr>
-	{% paginate invoices %}		
+	{% paginate invoices %}
 	{% for invoice in invoices %}
+		{% if invoice.valid %}
 		<tr>
 			<td>{{ invoice.id }}</td>
 			<td>{{ invoice.invoice_code }}</td>
@@ -98,6 +99,7 @@
 				<a href="{% url 'invoice:view_invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
 				<button type="button" data-toggle="modal" data-target="#confirminvalidate" data-object-name="{{ invoice.id }}" data-invalidate-url="{% url 'invoice:invalidate_invoice' invoice.id %}" class="btn btn-xs btn-danger">Invalidate</button>
 			</td>
+			{% endif %}
 		</tr>
 	{% endfor %}
 	</table>
@@ -114,7 +116,7 @@
 				<h4 class="modal-title">Confirm</h4>
 			</div>
 			<div class="modal-body">
-				
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
