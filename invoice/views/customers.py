@@ -55,12 +55,23 @@ def customer(request, customer_id):
 @login_required(login_url='users:login')
 def new_customer(request):
     if request.method == 'POST':
-        # Stuff from form
-        c = Customer(name=request.POST['name'], address1=request.POST['address1'], address2=request.POST['address2'], city=request.POST['city'], state=request.POST['state'], zip=request.POST['zip'], email=request.POST['email'])
-        c.save()
+        if 'save' in request.POST:
+            name = request.POST['name']
+            address1 = request.POST['address1']
+            address2 = request.POST['address2']
+            city = request.POST['city']
+            state = request.POST['state']
+            zip = request.POST['zip']
+            email = request.POST['email']
+            # Stuff from form
+            c = Customer(name=name, address1=address1, address2=address2,
+                         city=city, state=state, zip=zip, email=email)
+            c.save()
 
         if 'savecreate' in request.POST:
-            i = Invoice(customer=c, expiration_date=request.POST['expiration_date'], status=request.POST['status'])
+            expiration_date = request.POST.get('expiration_date', datetime.date.today())
+            status = request.POST.get('status', 'Upaid')
+            i = Invoice(customer=c, expiration_date=expiration_date, status=status)
             i.save()
             messages.success(request, 'New Customer successfully created! ')
             return HttpResponseRedirect(reverse('invoice:invoice', args=(i.id,)))
