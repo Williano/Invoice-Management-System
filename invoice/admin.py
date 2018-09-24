@@ -1,9 +1,10 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Customer
-from .models import Invoice
-
+from invoice.models.invoice_item import InvoiceItem
+from invoice.models.customer import Customer
+from invoice.models.inv import Invoice
 
 admin.site.register(Customer)
 admin.site.register(Invoice)
+admin.site.register(InvoiceItem)
