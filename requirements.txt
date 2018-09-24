@@ -2,4 +2,5 @@ coverage==4.5.1
 Django==1.11.15
 django-crispy-forms==1.7.2
 django-el-pagination==3.2.4
+MySQL-python==1.2.5
 pytz==2018.5
