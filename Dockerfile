@@ -32,6 +32,8 @@ ENV DEBUG True
 EXPOSE 8000
 EXPOSE 3306
 
-#ENTRYPOINT ["python"]
-#CMD ["manage.py runserver 0.0.0.0:8000"]
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+#CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+#ENTRYPOINT ["/usr/local/bin/uwsgi"]
+RUN ["pip", "install", "uwsgi"]
+CMD ["uwsgi", "--http", ":8000", "--chdir", "/Invoice_Management_System", "-w", "invoicemanager.wsgi", "--master", "--processes", "5"]
+#CMD ["uwsgi", "--ini", "invoice.ini"]

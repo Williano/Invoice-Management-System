@@ -11,3 +11,4 @@
 - [] Prepare for deployment
 - [x] Implement `invalidate invoice` functionality
   [] nginx docker box set up
+  [] already logged in users should be redirected to dashboard when they access login or registration page
