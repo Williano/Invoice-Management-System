@@ -23,6 +23,7 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
+  config.vm.network "forwarded_port", guest: 80, host: 80
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 3306, host: 3306
 
@@ -44,7 +45,7 @@ Vagrant.configure("2") do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder ".", "/home/vagrant/Inventory-Management-System"
+  config.vm.synced_folder ".", "/home/vagrant/Invoice_Management_System"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
