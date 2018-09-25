@@ -6,7 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from invoice.models import Customer, Invoice, InvoiceItem
+# from invoice.models import Customer, Invoice, InvoiceItem
+from invoice.models.customer import Customer
+from invoice.models.inv import Invoice
 
 
 @login_required(login_url='users:login')

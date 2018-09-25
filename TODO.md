@@ -10,3 +10,4 @@
 - [x] Setup email server for password reset
 - [] Prepare for deployment
 - [x] Implement `invalidate invoice` functionality
+  [] nginx docker box set up

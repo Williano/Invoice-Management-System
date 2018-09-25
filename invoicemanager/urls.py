@@ -22,7 +22,7 @@ from django.views.generic import TemplateView
 from .routers import router
 
 urlpatterns = [
-    url(r'^', include('users.urls', namespace="users")),
+    url(r'^user/', include('users.urls', namespace="users")),
     url(r'^invoice/', include('invoice.urls', namespace="invoice")),
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),
