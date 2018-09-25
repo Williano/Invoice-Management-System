@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Third Party Apps.
     'el_pagination',
     'crispy_forms',
+    'rest_framework',
 
     # Our Apps.
     'invoice',
