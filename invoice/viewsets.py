@@ -2,7 +2,7 @@
 from rest_framework import viewsets, filters
 
 # Local application imports.
-from .models import Invoice
+from invoice.models.inv import Invoice
 from .serializers import InvoiceSerializer
 
 

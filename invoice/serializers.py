@@ -2,7 +2,7 @@
 from rest_framework import serializers
 
 # Local application imports.
-from .models import Invoice
+from invoice.models.inv import Invoice
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
