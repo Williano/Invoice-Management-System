@@ -10,5 +10,5 @@
 - [x] Setup email server for password reset
 - [] Prepare for deployment
 - [x] Implement `invalidate invoice` functionality
-  [] nginx docker box set up
+  [x] nginx docker box set up
   [] already logged in users should be redirected to dashboard when they access login or registration page

@@ -1,6 +1,6 @@
 FROM python:2.7
 
-MAINTAINER Anthony A. Abeo <anthony@mpedigree.net>
+MAINTAINER mpedigree tech team
 
 ## The enviroment variable ensures that the python output is set straight
 ## to the terminal with out buffering it first
