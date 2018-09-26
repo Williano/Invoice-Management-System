@@ -43,6 +43,7 @@
 							<li><a href="{% url 'invoice:index' %}">Recent</a></li>
 							<li class="divider" role="separator"></li>
 							<li><a href="{% url 'invoice:all_invoices' %}">List All</a></li>
+                            <li><a href="{% url 'vue_all_invoices' %}">Vuejs All Invoices List</a></li>
 							<li><a href="{% url 'invoice:invalid_invoices' %}">Invalid Invoices</a></li>
 							<li><a href="{% url 'invoice:draft_invoices' %}">Draft Invoices</a></li>
 							<li><a href="{% url 'invoice:paid_invoices' %}">Paid Invoices</a></li>
@@ -71,7 +72,7 @@
 					<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Hello, {{ user.username }} <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="{% url 'users:logout' %}"><strong></strong>Logout</strong></a></li>
+								<li><a href="{% url 'users:logout' %}"><strong>Logout</strong></a></li>
 							</ul>
 					</li>
 				</ul>

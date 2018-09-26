@@ -13,11 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+# Third party apps.
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views.generic import TemplateView
+
+# Local application imports
+from .routers import router
 
 urlpatterns = [
     url(r'^user/', include('users.urls', namespace="users")),
     url(r'^invoice/', include('invoice.urls', namespace="invoice")),
     url(r'^admin/', admin.site.urls),
+    url(r'^api/', include(router.urls)),
+    url(r'^all_invoices/$',
+        TemplateView.as_view(template_name='invoice/vuejs_all_invoices.html'),
+        name='vue_all_invoices'),
 ]
