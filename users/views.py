@@ -30,6 +30,9 @@ def registration(request):
     :param request: The WSGIRequest object for the current session
     :return HttpResponse:
     """
+    if request.user.is_authenticated:
+        return redirect('invoice:index')
+
     if request.method == 'POST':
 
         # Bind the form with the data submitted and check to
@@ -105,6 +108,9 @@ def sign_in(request):
     :param request: The WSGIRequest object for the current session
     :return HttpResponse:
     """
+    if request.user.is_authenticated:
+        return redirect('invoice:index')
+
     if request.method == "POST":
         # Get the login form with the data bound to it
         form = LoginForm(request.POST)

@@ -4,10 +4,14 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from invoice.models import Customer, Invoice, InvoiceItem
 from ..forms import ItemFormset
 
 # Add invoiceitem to invoice
+from invoice.models.inv import Invoice
+from invoice.models.invoice_item import InvoiceItem
+from invoice.models.customer import Customer
+
+
 @login_required(login_url='users:login')
 def add_item(request, invoice_id):
 	invoice = get_object_or_404(Invoice, pk=invoice_id)
@@ -50,16 +54,16 @@ def add_item(request, invoice_id):
 # Delete invoiceitem from invoice
 @login_required(login_url='users:login')
 def delete_item(request, invoiceitem_id, invoice_id):
-	
-	item = get_object_or_404(InvoiceItem, pk=invoiceitem_id)
-	invoice = get_object_or_404(Invoice, pk=invoice_id)
-	try:
-		item.delete()
-		messages.warning(request, 'Item deleted successfully from invoice! ')
-	except (KeyError, InvoiceItem.DoesNotExist):
-		return render(request, 'invoice/view_invoice.html', {
-			'invoice': invoice,
-			'error_message': 'Item does not exist.',
-		})
-	else:
-		return HttpResponseRedirect(reverse('invoice:invoice', args=(invoice.id,)))
+
+    item = get_object_or_404(InvoiceItem, pk=invoiceitem_id)
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    try:
+        item.delete()
+        messages.warning(request, 'Item deleted successfully from invoice! ')
+    except (KeyError, InvoiceItem.DoesNotExist):
+        return render(request, 'invoice/view_invoice.html', {
+            'invoice': invoice,
+            'error_message': 'Item does not exist.',
+        })
+    else:
+        return HttpResponseRedirect(reverse('invoice:invoice', args=(invoice.id,)))

@@ -1,0 +1,33 @@
+version: '2'
+services:
+    django:
+        container_name: ims-django
+        build:
+          context: .
+        networks:
+          - ims-network
+        volumes:
+            - ims-django-static:/Invoice_Management_System/static
+        ports:
+          - 8000:8000
+
+    ims-nginx:
+        container_name: ims-server
+        build:
+            context: ./nginx
+        networks:
+          - ims-network
+        volumes:
+            - ims-django-static:/Invoice_Management_System/static
+        ports:
+            - 80:80
+        depends_on:
+            - django
+
+volumes:
+    ims-django-static:
+        driver: local
+
+networks:
+    ims-network:
+        driver: bridge

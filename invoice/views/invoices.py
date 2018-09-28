@@ -7,11 +7,14 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
 
-from invoice.models import Customer, Invoice, InvoiceItem
 from ..forms import ItemFormset
 
 
 # Default invoice list, show recent invoices by the date it was created.
+from invoice.models.customer import Customer
+from invoice.models.inv import Invoice
+
+
 @login_required(login_url='users:login')
 def index(request):
     invoice = Invoice.objects.all().order_by('-date_created')
