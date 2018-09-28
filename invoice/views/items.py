@@ -5,16 +5,38 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from invoice.models import Customer, Invoice, InvoiceItem
-
+from ..forms import ItemFormset
 
 # Add invoiceitem to invoice
 @login_required(login_url='users:login')
 def add_item(request, invoice_id):
 	invoice = get_object_or_404(Invoice, pk=invoice_id)
+	items_added = 0
+	
 	try:
-		i = invoice.invoiceitem_set.create(name=request.POST['name'], description=request.POST['description'], cost=request.POST['cost'], qty=request.POST['qty'])
-		i.save()
-		messages.success(request, 'Item added successfully to invoice !')
+		if request.method == 'POST':
+			itemformset = ItemFormset(request.POST)
+			
+			if itemformset.is_valid():
+				for form in itemformset:
+					
+					item_name = form.cleaned_data.get('item')
+					item_description = form.cleaned_data.get('description')
+					item_cost = form.cleaned_data.get('cost')
+					item_qty = form.cleaned_data.get('qty')
+
+					if item_name is None or item_cost is None or item_qty is None:
+						return HttpResponseRedirect(reverse('invoice:invoice', args=(invoice.id,)))
+
+					i = invoice.invoiceitem_set.create(name=item_name, description=item_description, cost=item_cost, qty=item_qty)
+					i.save()
+
+					items_added += 1
+					del i
+				
+				if items_added > 0:
+					messages.success(request, '%d items added successfully to invoice !' % items_added)
+	
 	except (KeyError, Invoice.DoesNotExist):
 		return render(request, 'invoice/view_invoice.html', {
 			'invoice': invoice,
