@@ -3,12 +3,14 @@
 ## Getting Started
 This section describes how to set up an environment to run and test the project.
 
-### Prerequisites
+## Setup
+
+### Using Python virtualenv
+
+#### Prerequisites
 * You have a working installation of Python 2.7.*
 * You can install software on your system.
 * You can create and activate Python virtual environments.
-
-### Setup
 Create a Python virtual environment somewhere on your system and activate it.
 Your shell prompt should look something like this:
 ```shell
@@ -49,6 +51,50 @@ Setup the database by running the following.
 $ python manage.py makemigrations
 $ python manage.py migrate
 ```
+### Using Docker
+You can build and run the app using Docker containers. This requires minimal setup.
+
+#### Prerequisites
+Make sure you have Docker a Docker-compose installed. Follow the URLs
+below to install for the appropriate system.
+
+[Installing docker-compose]([GitHub](http://github.com))  
+[Installing docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1)
+
+After installation you can verify that it is installed by running
+```shell
+$ sudo docker version
+```
+It should display something like this if successful:
+```
+Client:
+ Version:           18.06.1-ce
+ API version:       1.38
+ Go version:        go1.10.3
+ Git commit:        e68fc7a
+ Built:             Tue Aug 21 17:25:13 2018
+ OS/Arch:           linux/amd64
+ Experimental:      false
+
+Server:
+ Engine:
+  Version:          18.06.1-ce
+  API version:      1.38 (minimum version 1.12)
+  Go version:       go1.10.3
+  Git commit:       e68fc7a
+  Built:            Tue Aug 21 17:27:37 2018
+  OS/Arch:          linux/amd64
+  Experimental:     false
+```
+
+Now clone the repository and `cd` into the root of the project. Then run
+to build and start running the containers.
+```
+$ docker-compose build --no-cache
+$ docker-compose up --no-start --force-recreate
+$ docker-compose start
+```
+Then `127.0.0.1` in your browser
 
 ### Running
 When all is okay, you can start the local development server.
