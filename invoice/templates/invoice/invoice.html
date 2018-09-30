@@ -14,7 +14,6 @@
 <h2 class="text-center">Invoice {{ invoice.id }}</h2>
 
 <!-- Customer information -->
-
 <form method="POST" action="{% url 'invoice:view_invoice' invoice.id %}" name="customer" class="form-horizontal">
 	{% csrf_token %}
 	<div class="panel panel-primary">
@@ -65,6 +64,8 @@
 
 <form action="{% url 'invoice:add_item' invoice.id %}" method="post" class="form-inline">
 	{% csrf_token %}
+	{{ formset.management_form }}
+	
 	<div class="panel panel-primary">
 		<div class="panel-heading">Invoice items</div>
 		<table class="table table-hover">
@@ -88,20 +89,33 @@
 				</td>
 			</tr>
 			{% endfor %}
-			<tr>
-				<td><input type="text" name="name" class="form-control"></td>
-				<td><input type="text" name="description" class="form-control"></td>
+			
+			{% for forms in formset %}
+			<tr class="form-row">	
+				<td id="items-field">{{ forms.item }}</td>
+				<td id="description-field">{{ forms.description }}</td>
 				<td>
-					<div class="input-group"><span class="input-group-addon"></span><input type="text" name="cost" class="form-control" placeholder="0.00"/></div>
+					<div class="input-group" id="cost-field">
+						<span class="input-group-addon"></span>{{ forms.cost }}
+					</div>
 				</td>
-				<td><input type="text" name="qty" class="form-control"></td>
+				<td id="qty-field">{{ forms.qty }}</td>
 				<td>&nbsp;</td>
-				<td class="text-right">
-					<input type="submit" class="btn btn-xs btn-primary" value="Add">
+				<td>
+					<div class="btn-group" role="group">
+						<button class="btn btn-primary add-form-row">+</button>
+						<button class="btn btn-danger remove-form-row">-</button>
+					</div>
 				</td>
+				
 			</tr>
+			{% endfor %}
+				
 		</table>
-		<div class="panel-footer text-right"><strong>Total: GHS {{ invoice.total_items }}</strong></div>
+		<div class="panel-footer">
+			<input type="submit" class="btn btn-primary" value="Add">
+			<div class="text-right"><strong class=>Total: GHS {{ invoice.total_items }}</strong></div>
+		</div>
 	</div>
 </form>
 
@@ -129,7 +143,7 @@
 <script>
 	$(document).ready(function() {
 		$('#confirmdelete').on('show.bs.modal', function(e) {
-			var name = $(e.relatedTarget).data('object-name');
+		    var name = $(e.relatedTarget).data('object-name');
 			var url = $(e.relatedTarget).data('delete-url');
 			$('#confirmdelete .modal-body').text("Are you sure you want to delete " + name + "?");
 			$('#confirmdelete .modal-footer a').attr('href', url);
@@ -138,6 +152,63 @@
 </script>
 <!-- END delete confirmation modal -->
 
+
+<!---Handles the formset on this view-->
+<script type="text/javascript">
+	function updateElementIndex(el, prefix, ndx) {
+		var id_regex = new RegExp('(' + prefix + '-\\d+)');
+		var replacement = prefix + '-' + ndx;
+		if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+		if (el.id) el.id = el.id.replace(id_regex, replacement);
+		if (el.name) el.name = el.name.replace(id_regex, replacement);
+	}
+	
+	function cloneMore(selector, prefix) {
+		var newElement = $(selector).clone(true);
+		var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+		newElement.find(':input').each(function() {
+			var name = $(this).attr('name')
+			if(name) {
+				name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+				var id = 'id_' + name;
+				$(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+			}
+		});
+		total++;
+		$('#id_' + prefix + '-TOTAL_FORMS').val(total);
+		$(selector).after(newElement);
+		var conditionRow = $('.form-row:not(:last)');
+		conditionRow.find('.btn.add-form-row')
+		return false;
+	}
+	
+	function deleteForm(prefix, btn) {
+		var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+		if (total > 1){
+			btn.closest('.form-row').remove();
+			var forms = $('.form-row');
+			$('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+			for (var i=0, formCount=forms.length; i<formCount; i++) {
+				$(forms.get(i)).find(':input').each(function() {
+					updateElementIndex(this, prefix, i);
+				});
+			}
+		}
+		return false;
+	}
+	$(document).on('click', '.add-form-row', function(e){
+		e.preventDefault();
+		cloneMore('.form-row:last', 'form');
+		return false;
+	});
+	$(document).on('click', '.remove-form-row', function(e){
+		e.preventDefault();
+		deleteForm('form', $(this));
+		return false;
+	});
+	
+</script>
+<!---Handles the formset on this view-->
 
 
 {% if confirm_update %}

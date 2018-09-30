@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
 
-# from invoice.models import Customer, Invoice, InvoiceItem
+from ..forms import ItemFormset
 
 
 # Default invoice list, show recent invoices by the date it was created.
@@ -139,9 +139,12 @@ def unpaid_invoices(request):
 @login_required(login_url='users:login')
 def invoice(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+    itemformset = ItemFormset()
     context = {
         'title': 'Invoice ' + invoice_id,
         'invoice': invoice,
+        'formset': itemformset, 
     }
     return render(request, 'invoice/invoice.html', context)
 
