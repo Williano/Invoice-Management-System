@@ -117,7 +117,7 @@ def paid_invoices(request):
 # Show unpaid invoices
 @login_required(login_url='users:login')
 def unpaid_invoices(request):
-    invoices = Invoice.objects.filter(
+    invoice = Invoice.objects.filter(
         status='Unpaid').order_by('-date_created')
     page = request.GET.get('page', 1)
 

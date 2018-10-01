@@ -48,7 +48,6 @@ export PORT='{database port}'
 
 Setup the database by running the following.
 ```shell
-$ python manage.py makemigrations
 $ python manage.py migrate
 ```
 ### Using Docker
