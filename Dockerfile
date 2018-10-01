@@ -20,7 +20,7 @@ RUN chown -R root:root /var/log/uwsgi
 
 RUN mkdir /Invoice_Management_System
 WORKDIR /Invoice_Management_System
-COPY .. /Invoice_Management_System
+COPY . /Invoice_Management_System
 
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
@@ -29,4 +29,4 @@ RUN pip install uwsgi
 
 EXPOSE 8000
 
-CMD ["uwsgi", "--ini", "deploy/invoice.ini"]
+CMD ["uwsgi", "--ini", "deploy/django/invoice.ini"]

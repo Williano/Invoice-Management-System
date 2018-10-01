@@ -14,7 +14,7 @@ services:
     ims-nginx:
         container_name: ims-server
         build:
-            context: ./nginx
+            context: ./deploy/nginx/
         networks:
           - ims-network
         volumes:
