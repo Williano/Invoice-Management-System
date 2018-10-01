@@ -86,8 +86,13 @@ Server:
   Experimental:     false
 ```
 
-Now clone the repository and `cd` into the root of the project. Then run
-to build and start running the containers.
+Now clone the repository and `cd` into `deploy` directory inside the root of 
+the project. 
+```
+$ cd Invoice-Management-System/deploy
+```
+
+Now run to build and start running the containers.
 ```
 $ docker-compose build --no-cache
 $ docker-compose up --no-start --force-recreate

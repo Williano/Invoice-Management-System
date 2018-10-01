@@ -34,6 +34,3 @@ class UserLogoutTest(TestCase):
         )
 
         self.assertIn(response.status_code, [200, 302])
-
-    def tearDown(self):
-        pass
