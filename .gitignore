@@ -4,3 +4,6 @@ db.sqlite3
 .coverage
 .vagrant
 ubuntu-xenial-16.04-cloudimg-console.log
+.ve
+.ve/*
+.ve/
