@@ -85,7 +85,7 @@
 				<td>{{ item.qty }}</td>
 				<td>{{ item.total }}</td>
 				<td class="text-right">
-					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ item.description }}" data-delete-url="{% url 'invoicemanager:delete_item' invoice.id item.id %}">Delete</button>
+					<button type="button" id="delete-btn" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ item.name }}" data-delete-url="{% url 'invoicemanager:delete_item' invoice.id item.id %}">Delete</button>
 				</td>
 			</tr>
 			{% endfor %}
@@ -114,7 +114,7 @@
 		</table>
 		<div class="panel-footer">
 			<input type="submit" class="btn btn-primary" value="Add">
-			<div class="text-right"><strong class=>Total: GHS {{ invoice.total_items }}</strong></div>
+			<div id="total-output" class="text-right"><strong>Total: GHS {{ invoice.total_items }}</strong></div>
 		</div>
 	</div>
 </form>
@@ -141,11 +141,91 @@
 </div>
 
 <script>
+	function isFormFieldsEmpty() {
+		var test = true;
+		$('table tr input').each(function() {
+			var value = $(this).val();
+			if (value) { test &=false; } 
+		});
+		return test;
+	}
+
+	function someFormFieldsEmpty(){
+		var test = false;
+		$('table tr input').each(function(){
+			var value = $(this).val();
+			if ( $.trim(value).length == 0 ) {
+				test = true;
+			}
+		});
+		return test;
+	}
+
+	$("div.panel-footer input[value=Add]").click(function(event){
+		if ( someFormFieldsEmpty() ) {
+			var response = confirm("Most fields are empty. They will be ignore if you continue with the operation. Do you want to continue?");
+			if ( response == false ) { event.preventDefault(); }
+		}
+	});
+
+	/*Automatically update the total cost of items in invoice when input fields are changed*/
+	$("table tr input").change(function(event){
+		var elementNameAttr = $(this).attr("name"), index, cost_value, qty_value, sum=0;
+		if (elementNameAttr) { index = elementNameAttr.split("-")[1]; }
+		
+		cost_value = parseFloat( $("table tr input[name=form-"+index+"-cost]").val() );
+		qty_value = parseInt( $("table tr input[name=form-"+index+"-qty]").val() );
+		if (cost_value && qty_value) {  //if fields are set
+			var fourth_td_element = $("table tr input[name=form-"+index+"-qty]").parent().siblings()[3];
+			fourth_td_element.innerText = cost_value * qty_value;
+			
+			var i = 0;
+			$("table tr").each(function() {  /*sum all total values*/
+				fourth_td_element = $(this).children()[4];
+				var value = fourth_td_element.innerText;
+				if (value && $.trim(value).length != 0 && i > 0){ sum += parseFloat(value); }
+				i += 1;
+			});
+
+			$("div#total-output").html("<strong>Total: GHS "+sum+"</strong>");
+			$("div#total-output").attr("data", sum);
+			$("div.well").text("Invoice net total: GHS "+sum);
+		} else {
+			var fourth_td_element = $("table tr input[name=form-"+index+"-qty]").parent().siblings()[3];
+			fourth_td_element.innerText = 0;
+		}
+	});
+
+	function on_minus_press(elem){
+		var elem = $(elem).parent().parent().siblings()[4];
+		var elem_value = parseFloat(elem.innerText);
+		var totalElementData = $("div#total-output").attr("data");
+		
+		if ( totalElementData ){
+			totalElementData = parseFloat(totalElementData);
+			totalElementData -= elem_value;
+			
+			if ( totalElementData > 0 ) {
+				$("div#total-output").html("<strong>Total: GHS "+totalElementData+"</strong>");
+				$("div#total-output").attr("data", totalElementData);
+				$("div.well").text("Invoice net total: GHS "+totalElementData);
+			}
+		}
+	}
+
 	$(document).ready(function() {
 		$('#confirmdelete').on('show.bs.modal', function(e) {
 		    var name = $(e.relatedTarget).data('object-name');
 			var url = $(e.relatedTarget).data('delete-url');
-			$('#confirmdelete .modal-body').text("Are you sure you want to delete " + name + "?");
+			var confirm_msg;
+
+			if ( isFormFieldsEmpty() ) { 
+				confirm_msg = "Are you sure you want to delete " + name + "?";
+			} else { 
+				confirm_msg = "This operation will clear the data you have entered in the forms. Do you really want to continue?";
+			}
+			
+			$('#confirmdelete .modal-body').text(confirm_msg);
 			$('#confirmdelete .modal-footer a').attr('href', url);
 		});
 	});
@@ -203,6 +283,7 @@
 	});
 	$(document).on('click', '.remove-form-row', function(e){
 		e.preventDefault();
+		on_minus_press($(this));
 		deleteForm('form', $(this));
 		return false;
 	});
