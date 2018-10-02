@@ -80,7 +80,8 @@ def registration(request):
                     # User already exists
                     messages.warning(request, "A user with that Email already exist")
                     return render(request, "users/registration.html", {
-                        'registration_form': form
+                        'registration_form': form,
+                        'title': 'Registration'
                     })
     else:
         # For a GET request, create a registration form ad pass it
@@ -88,7 +89,8 @@ def registration(request):
         form = RegistrationForm()
 
     return render(request, "users/registration.html", {
-        'registration_form': form
+        'registration_form': form,
+        'title': 'Registration'
     })
 
 
@@ -141,7 +143,8 @@ def sign_in(request):
                 else:
                     messages.warning(request, "Username and/or password does not exist")
                     return render(request, "users/login.html", {
-                        'login_form': form
+                        'login_form': form,
+                        'title': 'Sign In'
                     })
     else:
         # For a GET request, create a login form ad pass it
@@ -150,7 +153,8 @@ def sign_in(request):
 
     # render the login page along with the form
     return render(request, "users/login.html", {
-        'login_form': form
+        'login_form': form,
+        'title': 'Sign In'
     })
 
 

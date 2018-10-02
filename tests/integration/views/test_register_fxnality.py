@@ -66,3 +66,9 @@ class UserRegistrationTest(TestCase):
         self.assertContains(response, "Username")
         self.assertContains(response, "Email")
         self.assertContains(response, "Password")
+
+    def test_authenticated_user_redirected_to_dashboard(self):
+        pass
+
+    def test_invalid_registration_data_returns_with_message(self):
+        pass

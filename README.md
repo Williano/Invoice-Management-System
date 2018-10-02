@@ -89,7 +89,7 @@ Server:
 Now clone the repository and `cd` into `deploy` directory inside the root of 
 the project. 
 ```
-$ cd Invoice-Management-System/deploy
+$ cd Invoice-Management-System
 ```
 
 Now run to build and start running the containers.
