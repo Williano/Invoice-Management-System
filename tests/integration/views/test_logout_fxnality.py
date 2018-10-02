@@ -34,3 +34,9 @@ class UserLogoutTest(TestCase):
         )
 
         self.assertIn(response.status_code, [200, 302])
+
+    def test_logout_destroys_user_session(self):
+        pass
+
+    def test_logging_out_authenticated_user_returns_message(self):
+        pass

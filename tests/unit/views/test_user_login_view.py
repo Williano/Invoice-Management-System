@@ -1,15 +1,19 @@
 from django.test import TestCase
+from django.urls import resolve, reverse
+
+from users.views import sign_in
 
 
 class UserLoginViewTest(TestCase):
-    def test_url_resolves_to_login_page(self):
-        pass
+    def test_url_resolves_to_login_view(self):
+        found = resolve('/')
+        self.assertEqual(found.func, sign_in)
 
     def test_login_page_returns_correct_html(self):
-        pass
+        response = self.client.get(reverse("users:login"))
+        html = response.content.decode('utf8')
 
-    def test_authenticated_user_redirected_to_dashboard(self):
-        pass
-
-    def test_invalid_login_data_returns_with_message(self):
-        pass
+        self.assertIn(response.status_code, [200, 302])
+        self.assertIn('Need An Account?', html)
+        self.assertIn('Sign Up Now', html)
+        self.assertIn('<title>mPedigree Invoice Manager | Sign In</title>', html)
