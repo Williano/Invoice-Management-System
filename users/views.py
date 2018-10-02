@@ -60,7 +60,7 @@ def registration(request):
             else:
                 # Ensure that the username provided is unique. If so, create and
                 # save a new user instance
-                if User.objects.filter(Q(username__exact=username) | Q(email__exact=email)).first() is None:
+                if User.objects.filter(email__exact=email).first() is None:
                     user = User(
                         username=username, password=password,
                         email=email, first_name=first_name,
@@ -140,12 +140,6 @@ def sign_in(request):
 
                     messages.success(request, "You've been successfully logged in! ")
                     return redirect('invoice:index')
-                else:
-                    messages.warning(request, "Username and/or password does not exist")
-                    return render(request, "users/login.html", {
-                        'login_form': form,
-                        'title': 'Sign In'
-                    })
     else:
         # For a GET request, create a login form ad pass it
         # to the login page for rendering.

@@ -17,9 +17,3 @@ class UserRegistrationViewTest(TestCase):
         self.assertIn(response.status_code, [200, 302])
         self.assertIn('Already Have An Account?', html)
         self.assertIn('<title>mPedigree Invoice Manager | Registration</title>', html)
-
-    def test_authenticated_user_redirected_to_dashboard(self):
-        pass
-
-    def test_invalid_login_data_returns_with_message(self):
-        pass

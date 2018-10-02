@@ -1,16 +1,25 @@
+from django.contrib.auth.models import AnonymousUser
+from django.contrib.sessions.models import Session
+from django.http import HttpRequest
 from django.test import Client, TestCase
-from django.urls import reverse
+from django.urls import reverse, resolve
 
+from invoice.views import index
 from users.models import User
+from users.views import registration
 
 
 class UserRegistrationTest(TestCase):
 
     def setUp(self):
-        self.c = Client()
+        User.objects.create_user(
+            username="johndoe",
+            password="johndoepass",
+            email="johndoe@example.com"
+        )
 
     def test_user_can_register(self):
-        self.c.post(
+        self.client.post(
             reverse("users:registration"),
             {
                 'username': "athena",
@@ -21,21 +30,6 @@ class UserRegistrationTest(TestCase):
                 "user_type": "REGULAR"
              }
         )
-
-        response = self.c.post(
-            reverse("users:registration"),
-            {
-                'username': "thorloki",
-                "first_name": "athena",
-                "last_name": "zeus",
-                "password": "zeusiskingofthegods",
-                "email": "athena@example.com",
-                "user_type": "REGULAR"
-            }
-        )
-
-        self.assertIn(response.status_code, [200, 302])
-        # self.assertContains(response, "A user with that Email already exist")
 
         user = User.objects.filter(username="athena").first()
 
@@ -57,10 +51,8 @@ class UserRegistrationTest(TestCase):
         )
 
         self.assertIn(response.status_code, [200, 302])
-
-        response = self.client.get(
-            reverse("users:registration")
-        )
+        self.assertIn(response.content, "")
+        response = self.client.get(reverse("users:registration"))
 
         self.assertIn(response.status_code, [200, 302])
         self.assertContains(response, "Username")
@@ -68,7 +60,25 @@ class UserRegistrationTest(TestCase):
         self.assertContains(response, "Password")
 
     def test_authenticated_user_redirected_to_dashboard(self):
-        pass
+        login = self.client.login(username="johndoe", password="johndoepass")
+        self.assertTrue(login)
 
-    def test_invalid_registration_data_returns_with_message(self):
-        pass
+        response = self.client.get(reverse("users:registration"))
+        found = resolve(response.url)
+        self.assertEqual(found.func, index)
+
+    def test_registration_with_existing_email(self):
+        response = self.client.post(
+            reverse("users:registration"),
+            {
+                'username': "thorloki",
+                "first_name": "thor",
+                "last_name": "loki",
+                "password": "zeusiskingofthegods",
+                "email": "athena@example.com",
+                "user_type": "REGULAR"
+            }
+        )
+
+        self.assertIn(response.status_code, [200, 302])
+

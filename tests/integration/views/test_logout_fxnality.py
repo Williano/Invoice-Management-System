@@ -29,12 +29,6 @@ class UserLogoutTest(TestCase):
 
         self.assertIn(response.status_code, [200, 302])
 
-        response = self.client.get(
-            reverse("users:logout"),
-        )
-
-        self.assertIn(response.status_code, [200, 302])
-
     def test_logout_destroys_user_session(self):
         pass
 
