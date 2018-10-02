@@ -6,6 +6,7 @@ from invoice.models.inv import Invoice
 from invoice.models.invoice_item import InvoiceItem
 
 
+
 # models test
 class InvoiceModelTest(TestCase):
     def setUp(self):
