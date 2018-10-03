@@ -114,3 +114,8 @@ Run the commands below to test the project and view the coverage.
 $ coverage run --source='.' manage.py test
 $ coverage report -m
 ```
+To exclude the virtualenv folder do the following:
+```shell
+$ coverage run --omit ve  --source="." manage.py  test
+```
+In the above example "ve" is the name of the virtualenv.
