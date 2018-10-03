@@ -32,18 +32,19 @@ def add_item(request, invoice_id):
 					if item_name is None or item_cost is None or item_qty is None:
 						items_not_add += 1
 					else:
-						i = invoice.invoiceitem_set.create(name=item_name, description=item_description, cost=item_cost, qty=item_qty)
-						i.save()
-
+						invoice_obj = invoice.invoiceitem_set.create(name=item_name, description=item_description, cost=item_cost, qty=item_qty)
+						invoice_obj.save()
 						items_added += 1
-						del i
+						del invoice_obj
 				
 				if items_added > 0:
 					messages.success(request, '%d items added successfully to invoice !' % items_added)
 				
 				if items_not_add > 0:
-					messages.warning(request, "%d items have been discarded since some fields are empty." % items_not_add)
-	
+					messages.warning(request, "%d items have been discarded since some fields were empty." % items_not_add)
+			else:
+				messages.warning(request, "Form not valid. Most form fields were empty")
+
 	except (KeyError, Invoice.DoesNotExist):
 		return render(request, 'invoice/view_invoice.html', {
 			'invoice': invoice,
