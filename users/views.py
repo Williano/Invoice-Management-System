@@ -137,6 +137,8 @@ def sign_in(request):
 
                     messages.success(request, "You've been successfully logged in! ")
                     return redirect('invoice:index')
+                else:
+                    messages.warning(request, "Username and/or password does not exist")
     else:
         if request.user.is_authenticated:
             return redirect('invoice:index')
