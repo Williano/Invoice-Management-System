@@ -15,7 +15,7 @@ from invoice.models.customer import Customer
 @login_required(login_url='users:login')
 def add_item(request, invoice_id):
 	invoice = get_object_or_404(Invoice, pk=invoice_id)
-	items_added = 0
+	items_added, items_not_add = (0, 0)
 	
 	try:
 		if request.method == 'POST':
@@ -30,16 +30,19 @@ def add_item(request, invoice_id):
 					item_qty = form.cleaned_data.get('qty')
 
 					if item_name is None or item_cost is None or item_qty is None:
-						return HttpResponseRedirect(reverse('invoice:invoice', args=(invoice.id,)))
+						items_not_add += 1
+					else:
+						i = invoice.invoiceitem_set.create(name=item_name, description=item_description, cost=item_cost, qty=item_qty)
+						i.save()
 
-					i = invoice.invoiceitem_set.create(name=item_name, description=item_description, cost=item_cost, qty=item_qty)
-					i.save()
-
-					items_added += 1
-					del i
+						items_added += 1
+						del i
 				
 				if items_added > 0:
 					messages.success(request, '%d items added successfully to invoice !' % items_added)
+				
+				if items_not_add > 0:
+					messages.warning(request, "%d items have been discarded since some fields are empty." % items_not_add)
 	
 	except (KeyError, Invoice.DoesNotExist):
 		return render(request, 'invoice/view_invoice.html', {
