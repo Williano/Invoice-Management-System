@@ -6,7 +6,6 @@ from invoice.models.inv import Invoice
 from invoice.models.invoice_item import InvoiceItem
 
 
-
 # models test
 class InvoiceModelTest(TestCase):
     def setUp(self):
@@ -97,6 +96,7 @@ class InvoiceModelTest(TestCase):
         self.assertEquals(expected_object_name, invoice.__str__())
 
     def test_invoice_item_one_total_price(self):
+
         invoice_item = InvoiceItem.objects.get(id=1)
         total_price = invoice_item.cost * invoice_item.qty
         self.assertEqual(total_price, 1000)

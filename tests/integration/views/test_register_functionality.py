@@ -1,12 +1,8 @@
-from django.contrib.auth.models import AnonymousUser
-from django.contrib.sessions.models import Session
-from django.http import HttpRequest
-from django.test import Client, TestCase
+from django.test import TestCase, Client
 from django.urls import reverse, resolve
 
 from invoice.views import index
 from users.models import User
-from users.views import registration
 
 
 class UserRegistrationTest(TestCase):
@@ -17,6 +13,8 @@ class UserRegistrationTest(TestCase):
             password="johndoepass",
             email="johndoe@example.com"
         )
+
+        self.client = Client()
 
     def test_user_can_register(self):
         self.client.post(
@@ -50,14 +48,9 @@ class UserRegistrationTest(TestCase):
             }
         )
 
-        self.assertIn(response.status_code, [200, 302])
+        self.assertIn(response.status_code, [302])
         self.assertIn(response.content, "")
-        response = self.client.get(reverse("users:registration"))
-
-        self.assertIn(response.status_code, [200, 302])
-        self.assertContains(response, "Username")
-        self.assertContains(response, "Email")
-        self.assertContains(response, "Password")
+        self.assertTrue(response.url, "/registration/")
 
     def test_authenticated_user_redirected_to_dashboard(self):
         login = self.client.login(username="johndoe", password="johndoepass")
