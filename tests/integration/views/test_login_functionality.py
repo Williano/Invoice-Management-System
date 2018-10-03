@@ -48,3 +48,16 @@ class UserLoginTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("<title>mPedigree Invoice Manager | Sign In</title>", response.content)
         self.assertIn("Username and/or password does not exist", response.content)
+
+    def test_login_with_credentials_that_dont_meet_requirements(self):
+        response = self.client.post(
+            reverse("users:login"),
+            {
+                "username": "tho",
+                "password": "god"
+            }
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("<title>mPedigree Invoice Manager | Sign In</title>", response.content)
+        self.assertIn("Username and/or password contains invalid data", response.content)

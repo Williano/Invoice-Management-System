@@ -139,6 +139,8 @@ def sign_in(request):
                     return redirect('invoice:index')
                 else:
                     messages.warning(request, "Username and/or password does not exist")
+        else:
+            messages.warning(request, "Username and/or password contains invalid data")
     else:
         if request.user.is_authenticated:
             return redirect('invoice:index')
