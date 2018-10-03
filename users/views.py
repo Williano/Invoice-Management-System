@@ -30,9 +30,6 @@ def registration(request):
     :param request: The WSGIRequest object for the current session
     :return HttpResponse:
     """
-    if request.user.is_authenticated:
-        return redirect('invoice:index')
-
     if request.method == 'POST':
 
         # Bind the form with the data submitted and check to
@@ -84,6 +81,9 @@ def registration(request):
                         'title': 'Registration'
                     })
     else:
+        if request.user.is_authenticated:
+            return redirect('invoice:index')
+
         # For a GET request, create a registration form ad pass it
         # to the login page for rendering.
         form = RegistrationForm()
@@ -110,9 +110,6 @@ def sign_in(request):
     :param request: The WSGIRequest object for the current session
     :return HttpResponse:
     """
-    if request.user.is_authenticated:
-        return redirect('invoice:index')
-
     if request.method == "POST":
         # Get the login form with the data bound to it
         form = LoginForm(request.POST)
@@ -140,7 +137,14 @@ def sign_in(request):
 
                     messages.success(request, "You've been successfully logged in! ")
                     return redirect('invoice:index')
+                else:
+                    messages.warning(request, "Username and/or password does not exist")
+        else:
+            messages.warning(request, "Username and/or password contains invalid data")
     else:
+        if request.user.is_authenticated:
+            return redirect('invoice:index')
+
         # For a GET request, create a login form ad pass it
         # to the login page for rendering.
         form = LoginForm()

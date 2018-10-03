@@ -11,6 +11,7 @@ from invoice.models.customer import Customer
 from invoice.models.inv import Invoice
 from invoice.models.invoice_item import InvoiceItem
 
+
 @login_required(login_url='users:login')
 def customer_list(request):
     """List all Customers
