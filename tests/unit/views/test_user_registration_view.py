@@ -18,10 +18,9 @@ class UserRegistrationViewTest(TestCase):
         self.assertIn('Already Have An Account?', html)
         self.assertIn('<title>mPedigree Invoice Manager | Registration</title>', html)
 
-
     def test_should_return_page_with_registration_form_elements(self):
         response = self.client.get(reverse("users:registration"))
-        import pdb; pdb.set_trace()
+
         self.assertIn(response.status_code, [200])
         self.assertContains(response, "Username")
         self.assertContains(response, "Email")
