@@ -1,6 +1,7 @@
+# Third party imports.
 from django.test import TestCase
-from django.utils import timezone
-from django.core.urlresolvers import reverse
+
+# Local application imports
 from invoice.models.customer import Customer
 from invoice.models.inv import Invoice
 from invoice.models.invoice_item import InvoiceItem
@@ -11,21 +12,17 @@ class InvoiceModelTest(TestCase):
     def setUp(self):
         c1 = Customer.objects.create(
             name="Mpedigree",
-            address1="P.O.Box KS 10731",
-            address2="Adum",
+            address="P.O.Box KS 10731",
             city="Kumasi",
-            state="AH",
-            zip="00233",
+            region="AH",
             email="paawilly17@gmail.com",
         )
 
         c2 = Customer.objects.create(
             name="JimahTech",
-            address1="P.O.Box KS 10731",
-            address2="Adum",
+            address="P.O.Box KS 10731",
             city="Kumasi",
-            state="AH",
-            zip="00233",
+            region="AH",
             email="paawilly18@gmail.com",
         )
 

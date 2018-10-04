@@ -6,3 +6,4 @@ db.sqlite3
 ubuntu-xenial-16.04-cloudimg-console.log
 ve
 ve/*
+.DS_Store
