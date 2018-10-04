@@ -9,25 +9,25 @@ from invoice.models.customer import Customer
 from invoice.models.inv import Invoice
 from invoice.models.invoice_item import InvoiceItem
 
+
 class InvoiceCreationTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        #creat user
+        # creat user
         User.objects.create_user(
             username="janedoe",
             password="janedoepass",
             email="janedoe@example.com"
         )
 
-        #create a customer
+        # create a customer
         cls.customer = Customer(
             name='jojo',
-            address1='4555 street',
-            address2='8545 street',
+            address='4555 street',
             city='Kumasi',
-            state='Ghana',
-            zip='475525',
+            region='AR',
+            country="Ghana",
             email='jojo@example.com'
         )
 
@@ -107,43 +107,43 @@ class InvoiceCreationTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(invoice_items), 5)
 
-def test_should_create_an_invoice_and_add_3_items_with_1_item_having_empty_fields(self):
-    customer = Customer.objects.filter(name=InvoiceCreationTest.customer.name).first()
+    def test_should_create_an_invoice_and_adding_items_using_invalid_formset(self):
+        customer = Customer.objects.filter(name=InvoiceCreationTest.customer.name).first()
 
-    response = self.client.post(reverse('invoice:new_invoice'), {
-        'customer_id': customer.id,
-        'expiration_date': date.today(),
-        'status': 'Unpaid'
-    })
+        response = self.client.post(reverse('invoice:new_invoice'), {
+            'customer_id': customer.id,
+            'expiration_date': date.today(),
+            'status': 'Unpaid'
+        })
 
-    self.assertEqual(response.url, '/invoice/invoice/1/')
-    self.assertEqual(response.status_code, 302)
-        
-    #get the invoice
-    invoice = Invoice.objects.filter(id=InvoiceCreationTest.customer.id).first()
-    self.assertEqual(invoice.id, 1)
-        
-    #add 3 items
-    response = self.client.post(reverse('invoice:add_item', args=(invoice.id,)), {
-        'form-TOTAL_FORMS': 3,
-        'form-INITIAL_FORMS': 0,
-        'form-MIN_NUM_FORMS': 0,
-        'form-MAX_NUM_FORMS': 100,
-        'form-0-item': 'Car',
-        'form-0-description': None,
-        'form-0-cost': None,
-        'form-0-qty': 5,
-        'form-1-item': 'House',
-        'form-1-description': 'Flat',
-        'form-1-cost': Decimal(100000),
-        'form-1-qty': 4,
-        'form-2-item': 'Office',
-        'form-2-description': 'Flat',
-        'form-2-cost': Decimal(105000),
-        'form-2-qty': 6,
-    })
+        self.assertEqual(response.url, '/invoice/invoice/1/')
+        self.assertEqual(response.status_code, 302)
+            
+        #get the invoice
+        invoice = Invoice.objects.filter(id=InvoiceCreationTest.customer.id).first()
+        self.assertEqual(invoice.id, 1)
+            
+        #add 3 items
+        response = self.client.post(reverse('invoice:add_item', args=(invoice.id,)), {
+            'form-TOTAL_FORMS': 3,
+            'form-INITIAL_FORMS': 0,
+            'form-MIN_NUM_FORMS': 0,
+            'form-MAX_NUM_FORMS': 100,
+            'form-0-item': 'Car',
+            'form-0-description': None,
+            'form-0-cost': None,
+            'form-0-qty': 5,
+            'form-1-item': 'House',
+            'form-1-description': 'Flat',
+            'form-1-cost': Decimal(100000),
+            'form-1-qty': 4,
+            'form-2-item': 'Office',
+            'form-2-description': 'Flat',
+            'form-2-cost': Decimal(105000),
+            'form-2-qty': 6,
+        })
 
-    invoice_items = invoice.invoiceitem_set.all()
-        
-    self.assertEqual(response.status_code, 302)
-    self.assertEqual(len(invoice_items), 2)
+        invoice_items = invoice.invoiceitem_set.all()
+            
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(invoice_items), 0)

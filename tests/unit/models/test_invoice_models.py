@@ -15,6 +15,7 @@ class InvoiceModelTest(TestCase):
             address="P.O.Box KS 10731",
             city="Kumasi",
             region="AH",
+            country="Ghana",
             email="paawilly17@gmail.com",
         )
 
@@ -23,6 +24,7 @@ class InvoiceModelTest(TestCase):
             address="P.O.Box KS 10731",
             city="Kumasi",
             region="AH",
+            country="00233",
             email="paawilly18@gmail.com",
         )
 

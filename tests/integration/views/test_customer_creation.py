@@ -1,12 +1,9 @@
-from urllib2 import HTTPRedirectHandler
-
 from django.http import HttpResponseRedirect
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
 
 from invoice.models.customer import Customer
-from invoice.views import index
-from users.models import User
+from invoice.views import customer_list
 
 
 class CustomerCreationTest(TestCase):
@@ -32,11 +29,10 @@ class CustomerCreationTest(TestCase):
             reverse("invoice:new_customer"),
             {
                 'name': "John Mahana",
-                "address1": "Lapaz",
-                "address2": "Lapaz",
+                "address": "Lapaz",
                 "city": "Accra",
-                "zip": "233",
-                "state": "Accra",
+                "region": "GA",
+                "country": "Ghana",
                 "email": "some@some.com"
             }
         )
@@ -51,7 +47,56 @@ class CustomerCreationTest(TestCase):
         customer = Customer.objects.filter(name="John Mahana")
         self.assertEqual(len(customer), 1)
 
-    # TODO: Write the following tests
-    # test_should_create_new_customer_without_login:
-    # test_should_create_new_customer_with_only_name_and_address:
-    # test_should_create_new_customer_with_only_name_and_address:
+    def test_should_create_new_customer_without_login(self):
+        response = self.client.post(
+            reverse("invoice:new_customer"),
+            {
+                'name': "Thor Odinson",
+                "address": "Asgard",
+                "city": "Accra",
+                "region": "GA",
+                "country": "Ghana",
+                "email": "odinson@example.com"
+            }
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(response.url, "/?next=/invoice/customer/new/")
+        self.assertTrue(len(response.templates) == 0)
+        self.assertIn(response.wsgi_request.scheme, response.allowed_schemes)
+
+    def test_should_create_new_customer_with_only_name_and_address(self):
+        response = self.client.post(
+            reverse("users:registration"),
+            {
+                'username': "athena",
+                "first_name": "athena",
+                "last_name": "zeus",
+                "password": "zeusiskingofthegods",
+                "email": "athena@example.com",
+                "user_type": "REGULAR"
+            }
+        )
+
+        self.assertEqual(response.url, "/invoice/")
+
+        user_login = self.client.login(username="athena", password="zeusiskingofthegods")
+        self.assertTrue(user_login)
+
+        response = self.client.post(
+            reverse("invoice:new_customer"),
+            {
+                'name': "Thor Odinson",
+                "address": "Asgard",
+                "city": "",
+                "region": "",
+                "country": "",
+                "email": ""
+            }
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(response.url, "/invoice/customers/")
+        self.assertEqual(resolve(response.url).func, customer_list)
+        self.assertTrue(len(response.templates) == 0)
+        self.assertIn(response.wsgi_request.scheme, response.allowed_schemes)
