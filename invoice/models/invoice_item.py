@@ -10,5 +10,8 @@ class InvoiceItem(models.Model):
     cost = models.DecimalField(decimal_places=2, max_digits=10)
     qty = models.IntegerField()
 
+    def __str__(self):
+        return self.name
+
     def total(self):
         return self.cost * self.qty

@@ -89,7 +89,7 @@ class ItemFormsetTest(TestCase):
 
     def test_formset_has_invalid_data(self):
         form = ItemFormset({
-            'form-TOTAL_FORMS': 2,
+            'form-TOTAL_FORMS': 1,
             'form-INITIAL_FORMS': 0,
             'form-MIN_NUM_FORMS': 0,
             'form-MAX_NUM_FORMS': 100,
