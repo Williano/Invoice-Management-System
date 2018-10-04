@@ -78,8 +78,8 @@ class UserRegistrationTest(TestCase):
     def test_authenticated_user_redirected_to_dashboard(self):
         login = self.client.login(username="johndoe", password="johndoepass")
         self.assertTrue(login)
-
+        
         response = self.client.get(reverse("users:registration"))
-        found = resolve(response.url)
+        found = resolve(response.url);
         self.assertEqual(found.func, index)
 
