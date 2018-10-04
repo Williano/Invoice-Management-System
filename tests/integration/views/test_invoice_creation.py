@@ -9,25 +9,25 @@ from invoice.models.customer import Customer
 from invoice.models.inv import Invoice
 from invoice.models.invoice_item import InvoiceItem
 
+
 class InvoiceCreationTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        #creat user
+        # creat user
         User.objects.create_user(
             username="janedoe",
             password="janedoepass",
             email="janedoe@example.com"
         )
 
-        #create a customer
+        # create a customer
         cls.customer = Customer(
             name='jojo',
-            address1='4555 street',
-            address2='8545 street',
+            address='4555 street',
             city='Kumasi',
-            state='Ghana',
-            zip='475525',
+            region='AR',
+            country="Ghana",
             email='jojo@example.com'
         )
 

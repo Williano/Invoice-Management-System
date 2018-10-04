@@ -11,21 +11,19 @@ class InvoiceModelTest(TestCase):
     def setUp(self):
         c1 = Customer.objects.create(
             name="Mpedigree",
-            address1="P.O.Box KS 10731",
-            address2="Adum",
+            address="P.O.Box KS 10731",
             city="Kumasi",
-            state="AH",
-            zip="00233",
+            region="AH",
+            country="Ghana",
             email="paawilly17@gmail.com",
         )
 
         c2 = Customer.objects.create(
             name="JimahTech",
-            address1="P.O.Box KS 10731",
-            address2="Adum",
+            address="P.O.Box KS 10731",
             city="Kumasi",
-            state="AH",
-            zip="00233",
+            region="AH",
+            country="00233",
             email="paawilly18@gmail.com",
         )
 
