@@ -11,62 +11,55 @@
 <h2 class="text-center">{{ customer.name }}</h2>
 
 <!-- Customer information -->
-
 <form method="POST" action="{% url 'invoice:update_customer' customer.id %}" name="customer" class="form-horizontal">
-	{% csrf_token %}
-	<div class="panel panel-primary">
-		<div class="panel-heading">Customer Info</div>
-		<div class="panel-body">
-			<div class="form-group">
-				<label class="col-sm-3 control-label">ID:</label>
-				<div class="col-sm-6">
-					<p class="form-control-static">{{ customer.id }}</a></p>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Name:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" name="name" value="{{ customer.name }}" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Address 1:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" name="address1" value="{{ customer.address1 }}" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Address 2:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" name="address2" value="{{ customer.address2 }}" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">City State Zip:</label>
-				<div class="col-sm-3">
-					<input type="text" class="form-control" name="city" value="{{ customer.city }}" />
-				</div>
-				<div class="col-sm-1">
-					<input type="text" class="form-control" name="state" value="{{ customer.state }}" />
-				</div>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" name="zip" value="{{ customer.zip }}" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Email:</label>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" name="email" value="{{ customer.email }}" />
-				</div>
-				<div class="col-sm-2">
-					<a href="mailto:{{ customer.email }}" class="btn btn-default form-control">Send E-mail</a>
-				</div>
-			</div>
-		</div>
-		<div class="panel-footer">
-			<input type="submit" value="Update" class="btn btn-primary">
-		</div>
-	</div>
+    {% csrf_token %}
+    <div class="panel panel-primary">
+        <div class="panel-heading"><strong>Customer Info</strong></div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">ID:</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static">{{ customer.id }}</a></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Name:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="name" value="{{ customer.name }}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Address:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="address1" value="{{ customer.address }}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">City Region Country:</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="city" value="{{ customer.city }}" />
+                </div>
+                <div class="col-sm-1">
+                    <input type="text" class="form-control" name="state" value="{{ customer.region }}" />
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" name="zip" value="{{ customer.country }}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Email:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="email" value="{{ customer.email }}" />
+                </div>
+                <div class="col-sm-2">
+                    <a href="mailto:{{ customer.email }}" class="btn btn-default form-control">Send E-mail</a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Update" class="btn btn-primary">
+        </div>
+    </div>
 </form>
 
 <!-- END Customer information -->
@@ -96,8 +89,13 @@
 			<td>{{ invoice.status }}</td>
 			<td>{{ invoice.total_items }}</td>
 			<td class="text-right">
-				<a href="{% url 'invoice:view_invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
-				<button type="button" data-toggle="modal" data-target="#confirminvalidate" data-object-name="{{ invoice.id }}" data-invalidate-url="{% url 'invoice:invalidate_invoice' invoice.id %}" class="btn btn-xs btn-danger">Invalidate</button>
+				<a href="{% url 'invoice:view_invoice' invoice.id %}"
+                   class="btn btn-xs btn-primary">View</a>
+				<button type="button" data-toggle="modal"
+                        data-target="#confirminvalidate"
+                        data-object-name="{{ invoice.id }}"
+                        data-invalidate-url="{% url 'invoice:invalidate_invoice' invoice.id %}"
+                        class="btn btn-xs btn-danger">Invalidate</button>
 			</td>
 			{% endif %}
 		</tr>

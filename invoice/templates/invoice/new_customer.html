@@ -6,53 +6,58 @@
 <div class="alert alert-danger">{{ error_message }}</div>
 {% endif %}
 
-<form method="POST" action="" name="customer" class="form-horizontal">
-	{% csrf_token %}
-	<div class="panel panel-primary">
-		<div class="panel-heading">New Customer</div>
-		<div class="panel-body">
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Name:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" name="name" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Address 1:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" name="address1" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Address 2:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" name="address2" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">City State Zip:</label>
-				<div class="col-sm-3">
-					<input type="text" class="form-control" name="city" />
-				</div>
-				<div class="col-sm-1">
-					<input type="text" class="form-control" name="state" />
-				</div>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" name="zip" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Email:</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control" name="email" />
-				</div>
-			</div>
-		</div>
-		<div class="panel-footer">
-			<input type="submit" name="savecreate" value="Save and Create Invoice" class="btn btn-default">
-			<input type="submit" name="save" value="Save" class="btn btn-primary">
-		</div>
-	</div>
+<form method="POST" action="{% url 'invoice:new_customer' %}" name="customer" class="form-horizontal">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {{ form.source.errors }}
+    {{ form.source }}
+    <div class="panel panel-primary">
+        <div class="panel-heading"><strong>New Customer</strong></div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Name:</label>
+                <div class="col-sm-6">
+                    {{ form.name.errors }}
+                    {{ form.name }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Address:</label>
+                <div class="col-sm-6">
+                    {{form.address.errors }}
+                    {{ form.address }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">City Region Country:</label>
+                <div class="col-sm-3">
+                    {{ form.city.errors }}
+                    {{ form.city }}
+                </div>
+                <div class="col-sm-1">
+                    {{ form.region.errors }}
+                    {{ form.region }}
+                </div>
+                <div class="col-sm-2">
+                    {{ form.country.errors }}
+                    {{ form.country }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Email:</label>
+                <div class="col-sm-6">
+                    {{ form.email.errors }}
+                    {{ form.email }}
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <!-- <input type="submit" name="savecreate" value="Save and Create Invoice"
+                   class="btn btn-default"> -->
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+        </div>
+    </div>
 </form>
 
 {% endblock %}

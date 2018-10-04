@@ -27,7 +27,7 @@
             </address>
         </div>
         <div class="col-sm-4 text-center">
-            <h2>Invoice# {{ invoice.id }}</h2><h2>Valid: {{ invoice.valid }}</h2>
+            <h2>Invoice# {{ invoice.id }}</h2>
             {{ invoice.date }}
         </div>
         <div class="col-sm-4 text-right">
@@ -36,16 +36,18 @@
                 <div class="panel-body">
                     {% if invoice.customer %}
                     {{ invoice.customer.name }}<br>
-                    {{ invoice.customer.address1 }}<br>
-                    {{ invoice.customer.address2 }}
+                    {{ invoice.customer.address }}<br>
                     {{ invoice.customer.city }}-
-                    {{ invoice.customer.state }},
-                    {{ invoice.customer.zip }}
+                    {{ invoice.customer.region }}
+                    {{ invoice.customer.country }}
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
+    <!-- Invoice code -->
+    <h2>Invoice Code: {{ invoice.invoice_code }}</h2>
+    <!-- end invoice -->
 
     <!-- Invoice items -->
 
