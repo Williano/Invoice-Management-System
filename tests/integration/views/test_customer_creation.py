@@ -13,7 +13,6 @@ class CustomerCreationTest(TestCase):
     def setUp(self):
         self.client = Client()
 
-
     def test_should_create_new_customer_after_login(self):
         response = self.client.post(
             reverse("users:registration"),
@@ -42,20 +41,17 @@ class CustomerCreationTest(TestCase):
             }
         )
 
-
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.__class__.__name__, HttpResponseRedirect.__name__)
         self.assertEqual("utf-8", response.charset)
         self.assertEqual(response.url, reverse("invoice:customer_list"))
-
 
         customers = Customer.objects.all()
         self.assertEqual(1, customers.count())
         customer = Customer.objects.filter(name="John Mahana")
         self.assertEqual(len(customer), 1)
 
-
-    #TODO: Write the following tests
+    # TODO: Write the following tests
     # test_should_create_new_customer_without_login:
     # test_should_create_new_customer_with_only_name_and_address:
     # test_should_create_new_customer_with_only_name_and_address:

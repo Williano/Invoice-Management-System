@@ -1,6 +1,8 @@
 from django.conf.urls import url
 
-from users.views import registration, sign_in, sign_out
+from users.views.login_view import sign_in
+from users.views.logout_view import sign_out
+from users.views.registration_view import registration
 
 urlpatterns = [
     url(r'^registration/$', registration, name="registration"),

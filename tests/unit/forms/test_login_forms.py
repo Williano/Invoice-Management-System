@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from users.forms import LoginForm
+from users.forms.login_form import LoginForm
 from users.models import User
 
 

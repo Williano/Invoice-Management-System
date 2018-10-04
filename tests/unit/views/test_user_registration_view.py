@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import resolve, reverse
 
-from users.views import registration
+from users.views.registration_view import registration
 
 
 class UserRegistrationViewTest(TestCase):
