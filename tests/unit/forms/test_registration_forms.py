@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from users.forms import RegistrationForm
+from users.forms.registration_form import RegistrationForm
 
 
 class RegistrationFormTest(TestCase):

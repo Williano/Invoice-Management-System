@@ -1,12 +1,8 @@
-from django.contrib.auth.models import AnonymousUser
-from django.contrib.sessions.models import Session
-from django.http import HttpRequest
-from django.test import Client, TestCase
+from django.test import TestCase, Client
 from django.urls import reverse, resolve
 
 from invoice.views import index
 from users.models import User
-from users.views import registration
 
 
 class UserRegistrationTest(TestCase):
@@ -18,8 +14,10 @@ class UserRegistrationTest(TestCase):
             email="johndoe@example.com"
         )
 
+        self.client = Client()
+
     def test_user_can_register(self):
-        self.client.post(
+        response = self.client.post(
             reverse("users:registration"),
             {
                 'username': "athena",
@@ -31,11 +29,34 @@ class UserRegistrationTest(TestCase):
              }
         )
 
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/invoice/")
+        self.assertEqual(resolve("/invoice/").func, index)
+
         user = User.objects.filter(username="athena").first()
 
         self.assertIsNotNone(user)
         self.assertEqual(user.username, "athena")
         self.assertEqual(user.email, "athena@example.com")
+
+        # Test: registering with existing email address
+        response = self.client.post(
+            reverse("users:registration"),
+            {
+                'username': "thorloki",
+                "first_name": "thor",
+                "last_name": "loki",
+                "password": "zeusiskingofthegods",
+                "email": "athena@example.com",
+                "user_type": "REGULAR"
+            }
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual("utf-8", response.charset)
+        self.assertIn("<title>mPedigree Invoice Manager | Registration</title>", response.content)
+        self.assertEqual(User.objects.filter(email="athena@example.com").count(), 1)
+        self.assertIn("A user with that Email already exist", response.content)
 
     def test_should_reject_registration_with_all_invalid_fields(self):
         response = self.client.post(
@@ -50,35 +71,15 @@ class UserRegistrationTest(TestCase):
             }
         )
 
-        self.assertIn(response.status_code, [200, 302])
+        self.assertEqual(response.status_code, 302)
         self.assertIn(response.content, "")
-        response = self.client.get(reverse("users:registration"))
-
-        self.assertIn(response.status_code, [200, 302])
-        self.assertContains(response, "Username")
-        self.assertContains(response, "Email")
-        self.assertContains(response, "Password")
+        self.assertTrue(response.url, "/registration/")
 
     def test_authenticated_user_redirected_to_dashboard(self):
         login = self.client.login(username="johndoe", password="johndoepass")
         self.assertTrue(login)
-
+        
         response = self.client.get(reverse("users:registration"))
-        found = resolve(response.url)
+        found = resolve(response.url);
         self.assertEqual(found.func, index)
-
-    def test_registration_with_existing_email(self):
-        response = self.client.post(
-            reverse("users:registration"),
-            {
-                'username': "thorloki",
-                "first_name": "thor",
-                "last_name": "loki",
-                "password": "zeusiskingofthegods",
-                "email": "athena@example.com",
-                "user_type": "REGULAR"
-            }
-        )
-
-        self.assertIn(response.status_code, [200, 302])
 

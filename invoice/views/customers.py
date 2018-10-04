@@ -12,6 +12,7 @@ from invoice.models.inv import Invoice
 from invoice.forms import CustomerForm
 
 
+
 @login_required(login_url='users:login')
 def customer_list(request):
     """List all Customers

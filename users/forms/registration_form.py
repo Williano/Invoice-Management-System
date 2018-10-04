@@ -29,18 +29,3 @@ class RegistrationForm(ModelForm):
             'password': '* Password must be at least 6 characters long',
             'username': '* Username must be blah blah blah',
         }
-
-
-class LoginForm(forms.Form):
-    username = forms.CharField(
-        min_length=6,
-        max_length=80,
-        label="Username",
-        required=True
-    )
-
-    password = forms.CharField(
-        widget=forms.PasswordInput,
-        label="Password",
-        required=True
-    )

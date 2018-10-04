@@ -2,7 +2,8 @@ from django.test import TestCase
 from django.urls import resolve, reverse
 
 from users.models import User
-from users.views import sign_out, sign_in
+from users.views.logout_view import sign_out
+from users.views.login_view import sign_in
 
 
 class UserLogoutViewTest(TestCase):
