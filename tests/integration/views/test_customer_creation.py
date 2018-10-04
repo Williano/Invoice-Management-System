@@ -51,7 +51,24 @@ class CustomerCreationTest(TestCase):
         customer = Customer.objects.filter(name="John Mahana")
         self.assertEqual(len(customer), 1)
 
+    def test_should_create_new_customer_without_login(self):
+        response = self.client.post(
+            reverse("invoice:new_customer"),
+            {
+                'name': "Thor Odinson",
+                "address1": "1 Asgard Street",
+                "address2": "Somewhere in the Cosmos",
+                "city": "Accra",
+                "zip": "233",
+                "state": "Accra",
+                "email": "thorodinson@example.com"
+            }
+        )
+        import pdb; pdb.set_trace()
+        self.assertEqual(response.status_code, 302)
+
+
     # TODO: Write the following tests
-    # test_should_create_new_customer_without_login:
+    # :
     # test_should_create_new_customer_with_only_name_and_address:
     # test_should_create_new_customer_with_only_name_and_address:
