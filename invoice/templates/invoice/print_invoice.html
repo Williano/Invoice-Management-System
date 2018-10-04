@@ -36,7 +36,8 @@
         <div id="client">
           <div class="to">INVOICE TO:</div>
           <h2 class="name">{{ invoice.customer.name }}</h2>
-          <div class="address">{{ invoice.customer.address1 }}, {{ invoice.customer.city }}</div>
+          <div class="address">{{ invoice.customer.address }},
+              {{ invoice.customer.city }}-{{ invoice.customer.region }}</div>
           <div class="email"><a href="mailto:{{ invoice.customer.email }}">{{ invoice.customer.email }}</a></div>
           {% endif %}
         </div>
@@ -45,7 +46,6 @@
           {# <div class="date">Invoice Code: {{ invoice.invoice_code }}</div> #}
           <div class="date">Date of Invoice: {{ invoice.date_created }}</div>
           <div class="date">Expiration Date: {{ invoice.expiration_date }}</div>
-          <div class="date">Invoice Status: {{invoice.status }}</div>
         </div>
       </div>
       <table border="0" cellspacing="0" cellpadding="0">
