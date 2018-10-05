@@ -163,7 +163,7 @@ def new_invoice(request):
     if request.method == 'POST':
         customer_id = request.POST.get("customer_id", "None")
         expiration_date = request.POST.get("expiration_date", datetime.date.today())
-        status = request.POST.get("status", 'Upaid')
+        status = request.POST.get("status", 'Unpaid')
 
         if customer_id == 'None':
             customers = Customer.objects.order_by('name')
