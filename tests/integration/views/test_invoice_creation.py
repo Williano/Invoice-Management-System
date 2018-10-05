@@ -145,5 +145,5 @@ class InvoiceCreationTest(TestCase):
 
         invoice_items = invoice.invoiceitem_set.all()
             
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(len(invoice_items), 0)

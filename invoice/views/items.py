@@ -42,8 +42,15 @@ def add_item(request, invoice_id):
 				
 				if items_not_add > 0:
 					messages.warning(request, "%d items have been discarded since some fields were empty." % items_not_add)
+					
 			else:
 				messages.warning(request, "Form not valid. Most form fields were empty")
+				#if form is invalid re-render the invoice
+				return render(request, 'invoice/invoice.html', {
+        					'title': 'Invoice ' + invoice_id,
+        					'invoice': invoice,
+        					'formset': itemformset, 
+    					})
 
 	except (KeyError, Invoice.DoesNotExist):
 		return render(request, 'invoice/view_invoice.html', {
