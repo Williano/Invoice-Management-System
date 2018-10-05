@@ -104,6 +104,9 @@ class InvoiceCreationTest(TestCase):
 
         invoice_items = invoice.invoiceitem_set.all()
         
+        expected_total_cost = 5 * Decimal(50000) + 4 * Decimal(100000) + 6 * Decimal(105000) + 4* Decimal(1) + 8 * Decimal(2000)
+
+        self.assertEqual(invoice.total_items(), expected_total_cost)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(invoice_items), 5)
 

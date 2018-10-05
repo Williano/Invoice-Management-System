@@ -50,6 +50,17 @@ Setup the database by running the following.
 ```shell
 $ python manage.py migrate
 ```
+
+
+### Running
+When all is okay, you can start the local development server.
+```shell
+$ python manage.py runserver
+```
+
+Visit `localhost:8000` in your browser.
+
+
 ### Using Docker
 You can build and run the app using Docker containers. This requires minimal setup.
 
@@ -98,15 +109,13 @@ $ docker-compose build --no-cache
 $ docker-compose up --no-start --force-recreate
 $ docker-compose start
 ```
-Then `127.0.0.1` in your browser
-
-### Running
-When all is okay, you can start the local development server.
-```shell
-$ python manage.py runserver
+Then visit `127.0.0.1` in your browser.  
+Supervisor will be running on `127.0.0.1:9001`. If prompted for username and password,
+use the following:
 ```
-
-Visit `localhost:8000` in your browser.
+username: mpedigree
+password: mpedigree
+``` 
 
 ## Testing
 Run the commands below to test the project and view the coverage.
