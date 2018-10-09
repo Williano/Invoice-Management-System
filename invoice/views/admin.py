@@ -5,9 +5,6 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 import datetime
 
-from invoice.models import Customer, Invoice, InvoiceItem
-
-
 
 # Administrative settings
 def users(request):

@@ -14,8 +14,8 @@ class LoginTest(LiveServerTestCase):
 
         Instantiate the selenium webdriver and load the browser.
         """
-        # self.selenium = webdriver.Chrome()
-        self.selenium = webdriver.Firefox()
+        self.selenium = webdriver.Chrome()
+        # self.selenium = webdriver.Firefox()
         # self.selenium = webdriver.Safari()
         self.selenium.maximize_window()
         super(LoginTest, self).setUp()
@@ -27,7 +27,7 @@ class LoginTest(LiveServerTestCase):
         self.selenium.quit()
         super(LoginTest, self).tearDown()
 
-    def test_user_login(self):
+    def test_user_login_is_successful_with_valid_credentials(self):
         """
         Selenium gets the url of the application.
 
@@ -48,10 +48,32 @@ class LoginTest(LiveServerTestCase):
 
         self.selenium.get('http://localhost:8000')
         username_input = self.selenium.find_element_by_id("id_username")
+        username_input.send_keys('shoemaker')
+        password_input = self.selenium.find_element_by_id("id_password")
+        password_input.send_keys('B3Pjv224Urjp8TC')
+        self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
+
+        # Wait for a minute before quitting.
+        time.sleep(5)
+
+    def test_login_credentials_required_for_user_login(self):
+        self.selenium.get('http://localhost:8000')
+        username_input = self.selenium.find_element_by_id("id_username")
         username_input.send_keys('')
         password_input = self.selenium.find_element_by_id("id_password")
         password_input.send_keys('')
         self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
 
         # Wait for a minute before quitting.
-        time.sleep(30)
+        time.sleep(5)
+
+    def test_user_login_fails_with_invalid_credentials(self):
+        self.selenium.get('http://localhost:8000')
+        username_input = self.selenium.find_element_by_id("id_username")
+        username_input.send_keys('killmonger')
+        password_input = self.selenium.find_element_by_id("id_password")
+        password_input.send_keys('erikstevens')
+        self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
+
+        # Wait for a minute before quitting.
+        time.sleep(5)
