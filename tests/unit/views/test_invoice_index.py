@@ -26,3 +26,10 @@ class InvoiceIndexViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('<title>mPedigree Invoice Manager | Recent Invoices</title>', html)
+
+    def test_index_page_works_correctly_with_invalid_page_number(self):
+        response = self.client.get(reverse("invoice:index"), {'page': 'foo'})
+        html = response.content.decode('utf8')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('<title>mPedigree Invoice Manager | Recent Invoices</title>', html)

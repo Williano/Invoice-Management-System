@@ -1,8 +1,6 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.contrib import messages
-from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
@@ -117,8 +115,7 @@ def paid_invoices(request):
 # Show unpaid invoices
 @login_required(login_url='users:login')
 def unpaid_invoices(request):
-    invoice = Invoice.objects.filter(
-        status='Unpaid').order_by('-date_created')
+    invoice = Invoice.objects.filter(status='Unpaid').order_by('-date_created')
     page = request.GET.get('page', 1)
 
     paginator = Paginator(invoice, 25)
