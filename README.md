@@ -1,5 +1,11 @@
 # Invoice Management System
 
+## Table of contents
+* [Getting Started](#getting-started)
+* [Setup](#setup)
+* [Testing](#testing)
+
+
 ## Getting Started
 This section describes how to set up an environment to run and test the project.
 
