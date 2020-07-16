@@ -3,6 +3,7 @@
 ## Table of contents
 * [Getting Started](#getting-started)
 * [Setup](#setup)
+* [Features](#features)
 * [Testing](#testing)
 
 
@@ -121,6 +122,9 @@ use the following:
 username: mpedigree
 password: mpedigree
 ``` 
+
+
+## Features
 
 ## Testing
 Run the commands below to test the project and view the coverage.
