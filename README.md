@@ -5,7 +5,7 @@
 * [Setup](#setup)
 * [Features](#features)
 * [Testing](#testing)
-
+* [Contributing](#contributing)
 
 ## Getting Started
 This section describes how to set up an environment to run and test the project.
