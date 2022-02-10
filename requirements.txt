@@ -1,5 +1,5 @@
 coverage==4.5.1
-Django==2.2.24
+Django==2.2.27
 django-crispy-forms==1.7.2
 django-el-pagination==3.2.4
 djangorestframework==3.11.2
