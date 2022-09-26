@@ -12,7 +12,6 @@ This section describes how to set up an environment to run and test the project.
 
 ## Setup
 
-
 ### Using Python virtualenv
 
 #### Prerequisites
